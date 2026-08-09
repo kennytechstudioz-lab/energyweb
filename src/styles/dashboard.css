@@ -1,0 +1,44 @@
+/* Dashboard Section Styles */
+
+.dashboard-root {
+  --dash-bg: #0a0b0d;
+  --dash-card-bg: #0f1115;
+  --dash-card-dark: #13151a;
+  --dash-accent: #e4c126;
+  --dash-accent-hover: #f1cf34;
+  --dash-green: #82b440;
+}
+
+/* Modal fade and scale animations */
+@keyframes dashboard-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dashboard-fade-in {
+  animation: dashboard-fade-in 0.2s ease-out forwards;
+}
+
+@keyframes dashboard-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dashboard-scale-up {
+  animation: dashboard-scale-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Card highlight glows */
+.dash-card-glow {
+  box-shadow: 0 0 25px -5px rgba(228, 193, 38, 0.08);
+}

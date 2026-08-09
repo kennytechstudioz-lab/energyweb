@@ -1,0 +1,27 @@
+/* Admin Section Styles */
+
+.admin-root {
+  --admin-bg: #0d0e12;
+  --admin-header-bg: #13151a;
+  --admin-accent: #e4c126;
+  --admin-accent-hover: #f1cf34;
+}
+
+/* Custom scrollbars for admin data tables */
+.admin-root ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-root ::-webkit-scrollbar-track {
+  background: #0d0e12;
+}
+
+.admin-root ::-webkit-scrollbar-thumb {
+  background: #262930;
+  border-radius: 3px;
+}
+
+.admin-root ::-webkit-scrollbar-thumb:hover {
+  background: #3b3f4a;
+}

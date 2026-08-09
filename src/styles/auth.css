@@ -1,0 +1,14 @@
+/* Auth Section Styles */
+
+.auth-root {
+  --auth-bg: #0d0e12;
+  --auth-accent: #e4c126;
+  --auth-green: #82b440;
+}
+
+.auth-glass-card {
+  background: rgba(19, 21, 26, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

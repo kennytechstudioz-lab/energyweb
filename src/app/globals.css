@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f1012;
+  --foreground: #ffffff;
+  --accent-yellow: #e4c126;
+  --accent-yellow-hover: #f1cf34;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  overflow-x: hidden;
+}
