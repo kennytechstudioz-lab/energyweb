@@ -93,15 +93,15 @@ export function WithdrawalTab() {
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <span className="text-sm font-extrabold text-white truncate">{w.currencyName}</span>
                   <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-wider">{w.currencySymbol}</span>
-                  <span className={`text-base font-black font-mono mt-0.5 ${w.balance > 0 ? "text-[#528574]" : "text-neutral-600"}`}>
+                  <span className={`text-base font-black font-mono mt-0.5 ${w.balance > 0 ? "text-[#009ADE]" : "text-neutral-600"}`}>
                     ${w.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                   </span>
                   {!hasAddress && (
-                    <span className="text-[9px] text-[#e4c126] font-bold uppercase tracking-wider mt-0.5">No payout address</span>
+                    <span className="text-[9px] text-[#009ADE] font-bold uppercase tracking-wider mt-0.5">No payout address</span>
                   )}
                 </div>
                 {isSelected && (
-                  <div className="ml-auto w-5 h-5 rounded-full bg-[#528574] flex items-center justify-center flex-shrink-0">
+                  <div className="ml-auto w-5 h-5 rounded-full bg-[#009ADE] flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3 stroke-white fill-none stroke-[2.5]" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
@@ -127,18 +127,18 @@ export function WithdrawalTab() {
             </div>
 
             {!hasAddress ? (
-              <div className="flex flex-col gap-3 bg-[#e4c126]/5 border border-[#e4c126]/20 rounded-lg p-4">
+              <div className="flex flex-col gap-3 bg-[#009ADE]/5 border border-[#009ADE]/20 rounded-lg p-4">
                 <div className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 text-[#e4c126] fill-current flex-shrink-0 mt-0.5" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-[#009ADE] fill-current flex-shrink-0 mt-0.5" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
                   </svg>
-                  <p className="text-xs text-[#e4c126] font-medium leading-relaxed">
+                  <p className="text-xs text-[#009ADE] font-medium leading-relaxed">
                     No payout address is set for <span className="font-black">{selWallet?.currencyName}</span>. You need to add your {selWallet?.currencySymbol} wallet address before requesting a withdrawal.
                   </p>
                 </div>
                 <a
                   href="/dashboard/settings"
-                  className="self-start text-[10px] font-extrabold uppercase tracking-wider bg-[#e4c126] text-neutral-900 px-4 py-2 rounded hover:bg-[#f1cf34] transition-colors"
+                  className="self-start text-[10px] font-extrabold uppercase tracking-wider bg-[#009ADE] text-white px-4 py-2 rounded hover:bg-[#0082be] transition-colors"
                 >
                   Go to Settings → Set Address
                 </a>

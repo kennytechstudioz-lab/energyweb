@@ -23,10 +23,10 @@ export default function PageLoader() {
         {/* Logo Container */}
         <div className="relative h-16 w-56 animate-pulse">
           <Image
-            src="/CapricornLogo.png"
+            src="/EnergyDarkLogo.png"
             alt="New Energy Holdings Logo"
             fill
-            className="object-contain brightness-0 invert"
+            className="object-contain"
             priority
           />
         </div>

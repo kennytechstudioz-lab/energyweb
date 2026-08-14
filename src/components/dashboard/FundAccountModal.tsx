@@ -60,7 +60,7 @@ export function FundAccountModal({
                 <select
                   value={fundAccountWalletSymbol}
                   onChange={(e) => setFundAccountWalletSymbol(e.target.value)}
-                  className="w-full bg-[#0a0b0d] border border-neutral-800 text-white text-sm rounded px-4 py-3 appearance-none focus:outline-none focus:border-[#e4c126]"
+                  className="w-full bg-[#0a0b0d] border border-neutral-800 text-white text-sm rounded px-4 py-3 appearance-none focus:outline-none focus:border-[#009ADE]"
                 >
                   <option value="" disabled>Select Wallet</option>
                   {wallets.map((w) => (
@@ -85,7 +85,7 @@ export function FundAccountModal({
                   if (fundAccountError) setFundAccountError("");
                 }}
                 placeholder={`Min: $${plans[0]?.min?.toLocaleString() || 0}`}
-                className={`w-full bg-[#0a0b0d] border ${fundAccountError ? 'border-red-500/50 focus:border-red-500' : 'border-neutral-800 focus:border-[#e4c126]'} text-white text-sm rounded px-4 py-3 focus:outline-none`}
+                className={`w-full bg-[#0a0b0d] border ${fundAccountError ? 'border-red-500/50 focus:border-red-500' : 'border-neutral-800 focus:border-[#009ADE]'} text-white text-sm rounded px-4 py-3 focus:outline-none`}
               />
               {fundAccountError && (
                 <span className="text-xs font-bold text-red-400 mt-0.5">{fundAccountError}</span>
@@ -110,7 +110,7 @@ export function FundAccountModal({
                 }
                 setFundAccountStep(2);
               }}
-              className="w-full bg-[#e4c126] hover:bg-[#c9a61b] text-neutral-950 font-bold py-3 rounded transition-colors mt-2 cursor-pointer"
+              className="w-full bg-[#009ADE] hover:bg-[#0082be] text-white font-bold py-3 rounded transition-colors mt-2 cursor-pointer"
             >
               Continue
             </button>

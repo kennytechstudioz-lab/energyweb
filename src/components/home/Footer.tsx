@@ -53,7 +53,7 @@ export default function Footer() {
             {/* Brand Logo */}
             <div className="relative h-[48px] w-[180px]">
               <Image
-                src="/CapricornLogo.png"
+                src="/EnergyLightLogo.png"
                 alt="New Energy Holdings"
                 fill
                 className="object-contain object-left"

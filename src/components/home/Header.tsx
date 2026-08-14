@@ -59,7 +59,7 @@ export default function Header() {
             <Link href="/" className="flex items-center">
               <div className="relative h-[44px] w-[165px]">
                 <Image
-                  src="/CapricornLogo.png"
+                  src="/EnergyLightLogo.png"
                   alt="New Energy Holdings"
                   fill
                   className="object-contain object-left"
@@ -74,7 +74,7 @@ export default function Header() {
             
             {/* Top Sub-utility bar */}
             <div className="flex items-center justify-end gap-6 px-8 py-2 border-b border-neutral-100 text-[11px] font-semibold text-neutral-600">
-              <Link href="/about" className="hover:text-[#009ADE] flex items-center gap-1 transition-colors">
+              <Link href="/landowners" className="hover:text-[#009ADE] flex items-center gap-1 transition-colors">
                 <span className="text-[10px]">↗</span>
                 <span>Landowners &amp; Partners</span>
               </Link>
@@ -175,7 +175,7 @@ export default function Header() {
         <div className="flex justify-between items-center mb-8">
           <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
             <div className="relative h-[44px] w-[165px]">
-              <Image src="/CapricornLogo.png" alt="New Energy Holdings" fill className="object-contain object-left brightness-0 invert" />
+              <Image src="/EnergyLightLogo.png" alt="New Energy Holdings" fill className="object-contain object-left" />
             </div>
           </Link>
           <button onClick={() => setIsMobileMenuOpen(false)} className="text-white hover:text-[#009ADE]">

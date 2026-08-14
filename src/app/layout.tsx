@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://newenergyholdings.com"),
   title: {
@@ -35,18 +36,11 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "New Energy Holdings | Leading Integrated Clean Power & Energy Infrastructure",
-    description: "New Energy Holdings is a leading integrated clean energy infrastructure company. We develop, own, and operate utility-scale wind, solar, energy storage, and clean transition platforms globally.",
+    title: "New Energy Holdings - Secure Clean Energy Portfolio",
+    description: "Join a verified global network of clean energy allocators, funding next-generation carbon capture technology, utility-scale solar arrays, and high-efficiency wind reserves.",
     url: "https://newenergyholdings.com",
     siteName: "New Energy Holdings",
-    images: [
-      {
-        url: "/CapricornLogo.png",
-        width: 800,
-        height: 600,
-        alt: "New Energy Holdings",
-      },
-    ],
+    images: ["/EnergyLightLogo.png"],
     locale: "en_US",
     type: "website",
   },
@@ -54,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "New Energy Holdings | Leading Integrated Clean Power & Energy Infrastructure",
     description: "New Energy Holdings is a leading integrated clean energy infrastructure company. We develop, own, and operate utility-scale wind, solar, energy storage, and clean transition platforms globally.",
-    images: ["/CapricornLogo.png"],
+    images: ["/EnergyLightLogo.png"],
   },
 };
 

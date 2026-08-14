@@ -20,7 +20,7 @@ const GT_STYLES = `
   .goog-te-gadget-simple {
     display: inline-flex !important;
     align-items: center !important;
-    background: #e4c126 !important;
+    background: #009ADE !important;
     border: none !important;
     border-radius: 4px !important;
     padding: 5px 10px !important;
@@ -30,7 +30,7 @@ const GT_STYLES = `
     white-space: nowrap !important;
   }
   .goog-te-gadget-simple:hover {
-    background: #f1cf34 !important;
+    background: #0082be !important;
   }
 
   /* Hide Google logo icon */
@@ -40,15 +40,15 @@ const GT_STYLES = `
   .goog-te-gadget-simple .goog-te-menu-value {
     font-size: 11px !important;
     font-weight: 800 !important;
-    color: #171a0f !important;
+    color: #ffffff !important;
     letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
   }
-  .goog-te-gadget-simple .goog-te-menu-value span { color: #171a0f !important; font-size: 11px !important; }
-  .goog-te-gadget-simple .goog-te-menu-value span:last-child { color: #171a0f !important; font-size: 10px !important; }
+  .goog-te-gadget-simple .goog-te-menu-value span { color: #ffffff !important; font-size: 11px !important; }
+  .goog-te-gadget-simple .goog-te-menu-value span:last-child { color: #ffffff !important; font-size: 10px !important; }
 
   /* Drop menu */
   .goog-te-menu-frame {

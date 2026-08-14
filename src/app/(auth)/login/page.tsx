@@ -7,7 +7,7 @@ import { useAuthStore } from "@/store/authStore";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuthStore();
+  const { login, user } = useAuthStore();
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,12 @@ export default function LoginPage() {
 
     try {
       await login(identifier, password);
-      router.push("/dashboard");
+      const loggedInUser = useAuthStore.getState().user;
+      if (loggedInUser?.role === "staff") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       setError(err?.response?.data?.message || err?.message || "Invalid credentials. Please check your details.");
     } finally {

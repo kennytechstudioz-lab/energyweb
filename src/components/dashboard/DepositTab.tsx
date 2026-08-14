@@ -101,7 +101,7 @@ export function DepositTab() {
                     onClick={() => setSelectedWalletSymbol(w.currencySymbol)}
                     className={`bg-[#0f1115] border rounded-lg p-5 flex flex-col gap-4 cursor-pointer transition-all ${
                       isSelected
-                        ? "border-[#e4c126] shadow-lg shadow-[#e4c126]/5 bg-[#0f1115]/90"
+                        ? "border-[#009ADE] shadow-lg shadow-[#009ADE]/5 bg-[#0f1115]/90"
                         : "border-neutral-900 hover:border-neutral-800"
                     }`}
                   >
@@ -125,7 +125,7 @@ export function DepositTab() {
                       </div>
                       <span className={`px-2.5 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
                         isSelected 
-                          ? "bg-[#e4c126]/10 border border-[#e4c126]/20 text-[#e4c126]" 
+                          ? "bg-[#009ADE]/10 border border-[#009ADE]/20 text-[#009ADE]" 
                           : "bg-neutral-800 border border-neutral-900 text-neutral-400"
                       }`}>
                         {isSelected ? "Active" : "Select"}
@@ -152,7 +152,7 @@ export function DepositTab() {
             <span className="text-[13px] font-extrabold uppercase text-neutral-500 tracking-wider">Select an investment plan</span>
             {loadingPlans ? (
               <div className="py-8 flex flex-col gap-3 items-center justify-center">
-                <div className="w-6 h-6 rounded-full border-2 border-[#e4c126] border-t-transparent animate-spin" />
+                <div className="w-6 h-6 rounded-full border-2 border-[#009ADE] border-t-transparent animate-spin" />
                 <span className="text-[13px] text-neutral-500 font-extrabold uppercase tracking-wider">Hydrating plans board...</span>
               </div>
             ) : plans.length === 0 ? (
@@ -169,7 +169,7 @@ export function DepositTab() {
                       onClick={() => setSelectedPlanId(plan.id || plan._id || "")}
                       className={`bg-[#0f1115] border rounded-lg flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300 ${
                         isPlanSelected
-                          ? "border-[#e4c126] shadow-lg shadow-[#e4c126]/5 bg-[#0f1115]/90 translate-y-[-2px]"
+                          ? "border-[#009ADE] shadow-lg shadow-[#009ADE]/5 bg-[#0f1115]/90 translate-y-[-2px]"
                           : "border-neutral-900 hover:border-neutral-800"
                       }`}
                     >
@@ -190,7 +190,7 @@ export function DepositTab() {
                               Structured Pool
                             </span>
                           </div>
-                          <span className="bg-[#528574]/15 border border-[#528574]/30 text-[#528574] text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="bg-[#009ADE]/15 border border-[#009ADE]/30 text-[#009ADE] text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                             {plan.percent}% Daily
                           </span>
                         </div>
@@ -212,7 +212,7 @@ export function DepositTab() {
                           </div>
                           <div className="flex flex-col">
                             <span className="text-neutral-500 uppercase tracking-widest font-bold">Duration</span>
-                            <span className="font-extrabold text-[#e4c126] text-sm">{plan.duration} Days</span>
+                            <span className="font-extrabold text-[#009ADE] text-sm">{plan.duration} Days</span>
                           </div>
                           <div className="flex flex-col">
                             <span className="text-neutral-500 uppercase tracking-widest font-bold">Ref Bonus</span>
@@ -222,7 +222,7 @@ export function DepositTab() {
                       </div>
 
                       <div className={`px-5 py-3 border-t border-neutral-900/40 flex justify-between items-center text-[13px] font-bold uppercase tracking-wider ${
-                        isPlanSelected ? "bg-[#e4c126]/5 text-[#e4c126]" : "text-neutral-500"
+                        isPlanSelected ? "bg-[#009ADE]/5 text-[#009ADE]" : "text-neutral-500"
                       }`}>
                         <span>Status</span>
                         <span>{isPlanSelected ? "Selected" : "Select Plan"}</span>
@@ -285,13 +285,13 @@ export function DepositTab() {
                               className="w-8 h-8 rounded object-cover bg-neutral-950"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded bg-[#528574]/20 border border-[#528574]/30 flex items-center justify-center text-xs font-black text-white">
+                            <div className="w-8 h-8 rounded bg-[#009ADE]/20 border border-[#009ADE]/30 flex items-center justify-center text-xs font-black text-white">
                               {activePlan.name.substring(0, 2).toUpperCase()}
                             </div>
                           )}
                           <div className="flex flex-col">
                             <span className="text-sm font-black text-white">{activePlan.name}</span>
-                            <span className="text-[13px] text-[#e4c126] font-bold">{activePlan.percent}% Daily Yield</span>
+                            <span className="text-[13px] text-[#009ADE] font-bold">{activePlan.percent}% Daily Yield</span>
                           </div>
                         </div>
                       )}
@@ -305,7 +305,7 @@ export function DepositTab() {
                           onClick={() => setDepositSource("direct")}
                           className={`p-3.5 rounded border text-left cursor-pointer transition-all flex flex-col gap-1.5 ${
                             depositSource === "direct"
-                              ? "bg-neutral-950 border-[#e4c126] text-white"
+                              ? "bg-neutral-950 border-[#009ADE] text-white"
                               : "bg-neutral-950/40 border-neutral-900 text-neutral-400 hover:border-neutral-800"
                           }`}
                         >
@@ -316,7 +316,7 @@ export function DepositTab() {
                           onClick={() => setDepositSource("balance")}
                           className={`p-3.5 rounded border text-left cursor-pointer transition-all flex flex-col gap-1.5 ${
                             depositSource === "balance"
-                              ? "bg-neutral-950 border-[#e4c126] text-white"
+                              ? "bg-neutral-950 border-[#009ADE] text-white"
                               : "bg-neutral-950/40 border-neutral-900 text-neutral-400 hover:border-neutral-800"
                           }`}
                         >
@@ -334,7 +334,7 @@ export function DepositTab() {
                         required
                         value={depositAmount}
                         onChange={(e) => setDepositAmount(e.target.value)}
-                        className="w-full px-3 py-3.5 bg-[#0a0b0d] border border-neutral-850 rounded focus:outline-none focus:border-[#e4c126] text-sm text-white font-mono"
+                        className="w-full px-3 py-3.5 bg-[#0a0b0d] border border-neutral-850 rounded focus:outline-none focus:border-[#009ADE] text-sm text-white font-mono"
                         placeholder={activePlan ? `Min: $${activePlan.min.toLocaleString()} | Max: ${activePlan.max === 0 ? "Unlimited" : `$${activePlan.max.toLocaleString()}`}` : "e.g. 5000"}
                       />
                     </div>
@@ -366,7 +366,7 @@ export function DepositTab() {
 
                           <div className="flex justify-between items-center text-[13px] text-neutral-400 pt-3 border-t border-neutral-900/60 mt-1">
                             <span className="font-semibold">Total Pool Returns ({activePlan.duration} Days)</span>
-                            <span className="font-black text-[#e4c126] font-mono text-sm">${totalEarning.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                            <span className="font-black text-[#009ADE] font-mono text-sm">${totalEarning.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                           </div>
                         </div>
                       ) : (
@@ -386,7 +386,7 @@ export function DepositTab() {
                         <span>Funds allocated are automatically integrated into active green energy pools. Yield payouts are released every 24 hours.</span>
                       </div>
                       
-                      <button type="submit" className="w-full bg-[#e4c126] hover:bg-[#c9a61b] text-neutral-950 font-black text-sm py-4 rounded transition-colors uppercase tracking-wider mt-2 cursor-pointer text-center">
+                      <button type="submit" className="w-full bg-[#009ADE] hover:bg-[#0082be] text-white font-black text-sm py-4 rounded transition-colors uppercase tracking-wider mt-2 cursor-pointer text-center">
                         Proceed to Confirm Deposit →
                       </button>
                     </div>

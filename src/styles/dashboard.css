@@ -4,8 +4,8 @@
   --dash-bg: #0a0b0d;
   --dash-card-bg: #0f1115;
   --dash-card-dark: #13151a;
-  --dash-accent: #e4c126;
-  --dash-accent-hover: #f1cf34;
+  --dash-accent: #009ADE;
+  --dash-accent-hover: #0082be;
   --dash-green: #82b440;
 }
 
@@ -40,5 +40,5 @@
 
 /* Card highlight glows */
 .dash-card-glow {
-  box-shadow: 0 0 25px -5px rgba(228, 193, 38, 0.08);
+  box-shadow: 0 0 25px -5px rgba(0, 154, 222, 0.12);
 }

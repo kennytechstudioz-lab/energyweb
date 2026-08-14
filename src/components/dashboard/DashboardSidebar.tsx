@@ -149,7 +149,7 @@ function SidebarNav() {
           href={item.href}
           className={`flex items-center justify-between gap-3 px-4 py-3 rounded text-[15px] font-bold transition-colors ${
             item.active
-              ? "bg-[#528574] text-white"
+              ? "bg-[#009ADE] text-white"
               : "text-neutral-400 hover:text-white hover:bg-neutral-900/40"
           }`}
         >
@@ -158,7 +158,7 @@ function SidebarNav() {
             {item.name}
           </div>
           {item.name === "Notifications" && unreadBadge && (
-            <span className="bg-[#e4c126] text-black text-[10px] font-black rounded-full h-4 min-w-[16px] flex items-center justify-center px-1">
+            <span className="bg-[#009ADE] text-white text-[10px] font-black rounded-full h-4 min-w-[16px] flex items-center justify-center px-1">
               {unreadBadge}
             </span>
           )}
@@ -171,7 +171,7 @@ function SidebarNav() {
           href={item.href}
           className={`flex items-center justify-between gap-3 px-4 py-3 rounded text-[15px] font-bold transition-colors ${
             item.active
-              ? "bg-[#528574] text-white"
+              ? "bg-[#009ADE] text-white"
               : "text-neutral-400 hover:text-white hover:bg-neutral-900/40"
           }`}
         >
@@ -180,7 +180,7 @@ function SidebarNav() {
             {item.name}
           </div>
           {item.name === "Notifications" && unreadBadge && (
-            <span className="bg-[#e4c126] text-black text-[10px] font-black rounded-full h-4 min-w-[16px] flex items-center justify-center px-1">
+            <span className="bg-[#009ADE] text-white text-[10px] font-black rounded-full h-4 min-w-[16px] flex items-center justify-center px-1">
               {unreadBadge}
             </span>
           )}
@@ -226,7 +226,7 @@ export function DashboardSidebar({
           >
             <div className="relative h-10 w-full">
               <Image
-                src="/CapricornLogo.png"
+                src="/EnergyDarkLogo.png"
                 alt="Logo"
                 fill
                 className="object-contain object-left"

@@ -23,14 +23,14 @@ export function MetricCardsGrid({
       
       {/* Card 1: Total Balance from N wallets */}
       <div className="bg-[#0f1115] border border-neutral-900 p-6 rounded relative overflow-hidden group">
-        <div className="absolute top-0 left-0 w-1 h-full bg-[#e4c126]" />
+        <div className="absolute top-0 left-0 w-1 h-full bg-[#009ADE]" />
         <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500 block mb-3">
           Total Wallet Balance
         </span>
         <h4 className="text-2xl font-black text-white">
           ${totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </h4>
-        <span className="text-[10px] font-bold text-[#e4c126] bg-[#e4c126]/10 px-2 py-0.5 rounded inline-block mt-2">
+        <span className="text-[10px] font-bold text-[#009ADE] bg-[#009ADE]/10 px-2 py-0.5 rounded inline-block mt-2">
           Aggregated from {walletsLabel}
         </span>
       </div>

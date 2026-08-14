@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import "@/styles/auth.css";
 
 const PATH_IMAGES: Record<string, string> = {
-  "/login": "/images/ccus_tech.png",
-  "/register": "/images/energy_transition.png",
-  "/forgot-password": "/images/sustainability.png",
+  "/login": "/images/solar.webp",
+  "/register": "/images/site.png",
+  "/forgot-password": "/images/technician.jpg",
 };
 
 export default function AuthLayout({
@@ -17,7 +17,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const bgImage = PATH_IMAGES[pathname] ?? "/images/ccus_tech.png";
+  const bgImage = PATH_IMAGES[pathname] ?? "/images/solar.webp";
 
   return (
     <div className="auth-root w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-neutral-950 text-white font-sans antialiased">

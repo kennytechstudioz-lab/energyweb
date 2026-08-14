@@ -197,7 +197,7 @@ export function ProfileTab() {
         {/* Left Card: Basic Info & Profile Pic Upload */}
         <div className="md:col-span-5 bg-[#0f1115] border border-neutral-900 p-6 rounded flex flex-col items-center text-center gap-6 relative">
           <div className="relative group w-24 h-24 mt-2">
-            <div className="w-full h-full rounded-full border-2 border-[#e4c126] overflow-hidden bg-neutral-950 flex items-center justify-center relative shadow-xl">
+            <div className="w-full h-full rounded-full border-2 border-[#009ADE] overflow-hidden bg-neutral-950 flex items-center justify-center relative shadow-xl">
               {profile?.profilePicture ? (
                 <img
                    src={profile.profilePicture}
@@ -548,7 +548,7 @@ export function ProfileTab() {
 
             <button
               type="submit"
-              className="bg-[#e4c126] hover:bg-[#c9a61b] text-neutral-950 font-extrabold uppercase py-3 rounded tracking-wider transition-colors cursor-pointer text-center text-sm"
+              className="bg-[#009ADE] hover:bg-[#0082be] text-white font-extrabold uppercase py-3 rounded tracking-wider transition-colors cursor-pointer text-center text-sm"
             >
               Submit Platform Review
             </button>

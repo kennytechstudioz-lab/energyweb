@@ -86,9 +86,9 @@ function TradingViewWidget() {
       "maLineWidth": 1,
       "maLength": 9,
       "lineWidth": 2,
-      "lineColor": "#e4c126",
-      "topColor": "rgba(228, 193, 38, 0.3)",
-      "bottomColor": "rgba(228, 193, 38, 0)"
+      "lineColor": "#009ADE",
+      "topColor": "rgba(0, 154, 222, 0.3)",
+      "bottomColor": "rgba(0, 154, 222, 0.0)"
     });
     container.current.appendChild(script);
   }, []);
@@ -454,7 +454,7 @@ function DashboardContent({ tab }: { tab: string }) {
             
             {/* Card 1: Total Balance from N wallets */}
             <div className="bg-[#0f1115] border border-neutral-900 p-6 rounded relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-[#e4c126]" />
+              <div className="absolute top-0 left-0 w-1 h-full bg-[#009ADE]" />
               <div className="flex justify-between items-start">
                 <div>
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-500 block mb-3">
@@ -466,12 +466,12 @@ function DashboardContent({ tab }: { tab: string }) {
                 </div>
                 <button
                   onClick={() => setShowFundModal(true)}
-                  className="bg-[#e4c126] hover:bg-[#c9a61b] text-neutral-950 text-[10px] font-black px-2.5 py-1.5 rounded transition-colors uppercase tracking-wider cursor-pointer shadow-md"
+                  className="bg-[#009ADE] hover:bg-[#0082be] text-white text-[10px] font-black px-2.5 py-1.5 rounded transition-colors uppercase tracking-wider cursor-pointer shadow-md"
                 >
                   Fund Account
                 </button>
               </div>
-              <span className="text-[10px] font-bold text-[#e4c126] bg-[#e4c126]/10 px-2 py-0.5 rounded inline-block mt-2">
+              <span className="text-[10px] font-bold text-[#009ADE] bg-[#009ADE]/10 px-2 py-0.5 rounded inline-block mt-2">
                 Aggregated from {walletsLabel}
               </span>
             </div>

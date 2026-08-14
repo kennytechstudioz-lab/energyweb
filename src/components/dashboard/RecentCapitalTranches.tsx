@@ -38,7 +38,7 @@ export function RecentCapitalTranches({
             <div key={txn._id} className="bg-[#0a0b0d] border border-neutral-900 p-4 rounded flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <span className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  txn.transactionType === "deposit" ? "bg-[#528574]/15 text-[#528574]" : txn.transactionType === "withdrawal" ? "bg-red-500/15 text-red-500" : txn.transactionType === "capital_access" ? "bg-blue-500/15 text-blue-500" : "bg-[#e4c126]/15 text-[#e4c126]"
+                  txn.transactionType === "deposit" ? "bg-[#009ADE]/15 text-[#009ADE]" : txn.transactionType === "withdrawal" ? "bg-red-500/15 text-red-500" : txn.transactionType === "capital_access" ? "bg-blue-500/15 text-blue-500" : "bg-[#009ADE]/15 text-[#009ADE]"
                 }`}>
                   {txn.transactionType === "deposit" ? "↓" : txn.transactionType === "withdrawal" ? "↑" : txn.transactionType === "capital_access" ? "⚡" : "⇄"}
                 </span>
@@ -54,7 +54,7 @@ export function RecentCapitalTranches({
                   ${txn.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </span>
                 <span className={`text-[9px] font-extrabold bg-neutral-950 px-2 py-0.5 rounded uppercase border ${
-                  txn.status === "completed" ? "text-green-400 border-green-500/20" : txn.status === "rejected" ? "text-red-400 border-red-500/20" : "text-[#e4c126] border-[#e4c126]/20"
+                  txn.status === "completed" ? "text-green-400 border-green-500/20" : txn.status === "rejected" ? "text-red-400 border-red-500/20" : "text-[#009ADE] border-[#009ADE]/20"
                 }`}>
                   {txn.status}
                 </span>

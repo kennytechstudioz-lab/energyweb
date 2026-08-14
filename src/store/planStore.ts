@@ -24,7 +24,7 @@ interface PlanState {
   createPlan: (plan: PlanData) => Promise<{ success: boolean; error?: string }>;
   updatePlan: (id: string, plan: PlanData) => Promise<{ success: boolean; error?: string }>;
   deletePlan: (id: string) => Promise<{ success: boolean; error?: string }>;
-  fetchPlans: () => Promise<void>;
+  fetchPlans: (force?: boolean) => Promise<void>;
   clearError: () => void;
 }
 
@@ -36,13 +36,21 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   createPlan: async (plan) => {
     set({ isLoading: true, error: null });
     try {
-      await apiCall("/api/plans", {
+      const res = await apiCall<{ success: boolean; plan: PlanData }>("/api/plans", {
         method: "POST",
         body: plan,
       });
 
-      // Refetch plans to keep local state synchronized
-      await get().fetchPlans();
+      // Update local state directly or force refetch
+      if (res.plan) {
+        set((state) => ({
+          plans: [...state.plans, res.plan],
+          isLoading: false,
+          error: null,
+        }));
+      } else {
+        await get().fetchPlans(true);
+      }
 
       set({ isLoading: false, error: null });
       return { success: true };
@@ -56,13 +64,20 @@ export const usePlanStore = create<PlanState>((set, get) => ({
   updatePlan: async (id, plan) => {
     set({ isLoading: true, error: null });
     try {
-      await apiCall(`/api/plans/${id}`, {
+      const res = await apiCall<{ success: boolean; plan: PlanData }>(`/api/plans/${id}`, {
         method: "PATCH",
         body: plan,
       });
 
-      // Refetch plans to keep local state synchronized
-      await get().fetchPlans();
+      if (res.plan) {
+        set((state) => ({
+          plans: state.plans.map((p) => ((p.id || p._id) === id ? res.plan : p)),
+          isLoading: false,
+          error: null,
+        }));
+      } else {
+        await get().fetchPlans(true);
+      }
 
       set({ isLoading: false, error: null });
       return { success: true };
@@ -80,10 +95,13 @@ export const usePlanStore = create<PlanState>((set, get) => ({
         method: "DELETE",
       });
 
-      // Refetch plans to keep local state synchronized
-      await get().fetchPlans();
+      // Immediately filter out deleted plan from state so UI updates instantly without refresh
+      set((state) => ({
+        plans: state.plans.filter((p) => (p.id || p._id) !== id),
+        isLoading: false,
+        error: null,
+      }));
 
-      set({ isLoading: false, error: null });
       return { success: true };
     } catch (err: any) {
       const errorMessage = err.message || "Failed to delete investment plan.";
@@ -92,9 +110,9 @@ export const usePlanStore = create<PlanState>((set, get) => ({
     }
   },
 
-  fetchPlans: async () => {
+  fetchPlans: async (force = false) => {
     const currentPlans = get().plans;
-    if (currentPlans && currentPlans.length > 0) {
+    if (!force && currentPlans && currentPlans.length > 0) {
       return;
     }
 
