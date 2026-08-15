@@ -16,11 +16,16 @@ export function DepositTab() {
   const [loadingWallets, setLoadingWallets] = useState(true);
 
   useEffect(() => {
+    fetchPlans();
+  }, [fetchPlans]);
+
+  useEffect(() => {
     if (user?.username) {
       fetchWallets(user.username).finally(() => setLoadingWallets(false));
-      fetchPlans();
+    } else {
+      setLoadingWallets(false);
     }
-  }, [user?.username, fetchWallets, fetchPlans]);
+  }, [user?.username, fetchWallets]);
 
   const [selectedWalletSymbol, setSelectedWalletSymbol] = useState("");
   const [selectedPlanId, setSelectedPlanId] = useState("");
@@ -68,30 +73,36 @@ export function DepositTab() {
 
     if (depositSource === "balance") {
       if (activeW && activeW.balance < amountVal) {
-        showToast(`Insufficient balance in your ${selectedWalletSymbol} wallet to deposit from balance.`, "warning");
+        showToast(`Insufficient balance in your ${selectedWalletSymbol || "selected"} wallet to deposit from balance.`, "warning");
         return;
       }
     }
     const planId = activePlan.id || activePlan._id || "";
+    const symbolToUse = selectedWalletSymbol || (wallets[0]?.currencySymbol ?? "USDT");
     router.push(
-      `/dashboard/deposit/confirm?amount=${amountVal}&planId=${planId}&walletSymbol=${selectedWalletSymbol}&source=${depositSource}`
+      `/dashboard/deposit/confirm?amount=${amountVal}&planId=${planId}&walletSymbol=${symbolToUse}&source=${depositSource}`
     );
   };
 
   return (
     <div className="flex flex-col gap-8 w-full animate-fade-in text-left">
-      {loadingWallets ? (
-        <span className="text-neutral-500 text-[13px] animate-pulse">Syncing energy ledgers...</span>
-      ) : wallets.length === 0 ? (
-        <div className="py-12 text-center flex flex-col gap-3 items-center justify-center border border-neutral-900/50 bg-[#0a0b0d]/50 rounded-lg">
-          <span className="text-neutral-500 text-[13px]">No active wallets or currencies found. Please contact an admin.</span>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-8 w-full">
+      <div className="flex flex-col gap-8 w-full">
+        
+        {/* Top Side: Synchronized Wallets Grid */}
+        <div className="flex flex-col gap-3 w-full">
+          <span className="text-[13px] font-extrabold uppercase text-neutral-500 tracking-wider">Select wallet to deposit to</span>
           
-          {/* Top Side: Synchronized Wallets Grid */}
-          <div className="flex flex-col gap-3 w-full">
-            <span className="text-[13px] font-extrabold uppercase text-neutral-500 tracking-wider">Select wallet to deposit to</span>
+          {loadingWallets ? (
+            <div className="py-6 flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full border-2 border-[#009ADE] border-t-transparent animate-spin" />
+              <span className="text-neutral-400 text-xs font-bold uppercase tracking-wider animate-pulse">Syncing energy ledgers...</span>
+            </div>
+          ) : wallets.length === 0 ? (
+            <div className="py-6 px-6 text-left flex flex-col gap-1.5 border border-neutral-900 bg-[#0f1115] rounded-lg">
+              <span className="text-neutral-300 text-xs font-bold">Default Currency Wallets Syncing...</span>
+              <span className="text-neutral-500 text-[11px]">System wallets will hydrate automatically. You can review all investment plans below.</span>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
               {wallets.map((w: any, index: number) => {
                 const isSelected = w.currencySymbol === selectedWalletSymbol;
@@ -115,7 +126,7 @@ export function DepositTab() {
                           />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center font-black text-white text-sm">
-                            {w.currencySymbol.substring(0, 2).toUpperCase()}
+                            {w.currencySymbol ? w.currencySymbol.substring(0, 2).toUpperCase() : "W"}
                           </div>
                         )}
                         <div className="flex flex-col">
@@ -134,7 +145,7 @@ export function DepositTab() {
 
                     <div className="flex justify-between items-center">
                       <span className="text-[13px] text-neutral-400 font-medium">Wallet Balance</span>
-                      <span className="text-sm font-black text-white">${w.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                      <span className="text-sm font-black text-white">${(w.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
 
                     <div className="flex justify-between items-center text-[13px] text-neutral-500 border-t border-neutral-900/40 pt-2.5 font-mono">
@@ -145,7 +156,8 @@ export function DepositTab() {
                 );
               })}
             </div>
-          </div>
+          )}
+        </div>
 
           {/* Middle Side: Structured Investment Plans Board */}
           <div className="flex flex-col gap-3 w-full border-t border-neutral-900/60 pt-6">
@@ -242,8 +254,8 @@ export function DepositTab() {
             </div>
 
             {(() => {
-              const activeW = wallets.find((w: any) => w.currencySymbol === selectedWalletSymbol) || wallets[0];
-              const activePlan = plans.find((p: any) => (p.id || p._id) === selectedPlanId) || plans[0];
+              const activeW = wallets.find((w: any) => w.currencySymbol === selectedWalletSymbol) || wallets[0] || null;
+              const activePlan = plans.find((p: any) => (p.id || p._id) === selectedPlanId) || plans[0] || null;
 
               const typedAmount = parseFloat(depositAmount) || 0;
               const dailyEarning = activePlan ? typedAmount * (activePlan.percent / 100) : 0;
@@ -259,20 +271,20 @@ export function DepositTab() {
                     {/* Active Selection Display */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-neutral-950/60 p-4 rounded border border-neutral-900/60">
                       <div className="flex items-center gap-3">
-                        {activeW.currencyLogo ? (
+                        {activeW?.currencyLogo ? (
                           <img
                             src={activeW.currencyLogo}
-                            alt={activeW.currencyName}
+                            alt={activeW.currencyName || "Wallet"}
                             className="w-8 h-8 rounded-full object-cover bg-neutral-950"
                           />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center font-black text-white text-sm">
-                            {activeW.currencySymbol.substring(0, 2).toUpperCase()}
+                            {activeW?.currencySymbol ? activeW.currencySymbol.substring(0, 2).toUpperCase() : "W"}
                           </div>
                         )}
                         <div className="flex flex-col">
-                          <span className="text-sm font-black text-white">{activeW.currencyName}</span>
-                          <span className="text-[13px] text-neutral-500 font-bold">Selected Wallet</span>
+                          <span className="text-sm font-black text-white">{activeW?.currencyName || "Selected Wallet"}</span>
+                          <span className="text-[13px] text-neutral-500 font-bold">{activeW?.currencySymbol || "Crypto Wallet"}</span>
                         </div>
                       </div>
 
@@ -286,7 +298,7 @@ export function DepositTab() {
                             />
                           ) : (
                             <div className="w-8 h-8 rounded bg-[#009ADE]/20 border border-[#009ADE]/30 flex items-center justify-center text-xs font-black text-white">
-                              {activePlan.name.substring(0, 2).toUpperCase()}
+                              {activePlan.name ? activePlan.name.substring(0, 2).toUpperCase() : "P"}
                             </div>
                           )}
                           <div className="flex flex-col">
@@ -321,7 +333,7 @@ export function DepositTab() {
                           }`}
                         >
                           <span className="text-sm font-bold">From Wallet Balance</span>
-                          <span className="text-[13px] text-neutral-500">Deduct from ${activeW.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })} balance</span>
+                          <span className="text-[13px] text-neutral-500">Deduct from ${(activeW?.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })} balance</span>
                         </div>
                       </div>
                     </div>
@@ -398,7 +410,6 @@ export function DepositTab() {
           </div>
 
         </div>
-      )}
     </div>
   );
 }

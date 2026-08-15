@@ -54,10 +54,10 @@ export default function Header() {
       >
         <div className="max-w-[1440px] mx-auto w-full flex items-stretch justify-between">
           
-          {/* Left: Brand Logo (Clean, no search icon) */}
-          <div className="flex items-center px-4 md:px-8 py-3.5 flex-shrink-0 border-r border-neutral-100">
+          {/* Left: Brand Logo & Google Translator directly under */}
+          <div className="flex flex-col justify-center px-4 md:px-8 py-2.5 flex-shrink-0 border-r border-neutral-100 gap-1">
             <Link href="/" className="flex items-center">
-              <div className="relative h-[44px] w-[165px]">
+              <div className="relative h-[40px] w-[160px]">
                 <Image
                   src="/EnergyLightLogo.png"
                   alt="New Energy Holdings"
@@ -67,6 +67,9 @@ export default function Header() {
                 />
               </div>
             </Link>
+            <div className="scale-90 origin-left">
+              <GoogleTranslate elementId="gt-home-left" />
+            </div>
           </div>
 
           {/* Right Area: Top Utility Subnav + Main Nav Row */}
@@ -90,9 +93,6 @@ export default function Header() {
                 <span className="text-[10px]">↗</span>
                 <span>Contact Us</span>
               </Link>
-              <div className="scale-90 origin-right">
-                <GoogleTranslate elementId="gt-home-desktop" />
-              </div>
             </div>
 
             {/* Main Navigation Links Row */}
