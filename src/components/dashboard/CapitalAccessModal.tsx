@@ -28,7 +28,7 @@ export function CapitalAccessModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
       <div className="bg-[#13151a] border border-neutral-800 rounded-xl w-full max-w-md overflow-hidden animate-fade-in-up">
         <div className="p-6 border-b border-neutral-800 flex justify-between items-center">
-          <h3 className="text-lg font-black text-white">Access 300% Capital</h3>
+          <h3 className="text-lg font-black text-white">Access 200% Capital</h3>
           <button onClick={onClose} className="text-neutral-500 hover:text-white transition">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -37,7 +37,7 @@ export function CapitalAccessModal({
         </div>
         <div className="p-6 flex flex-col gap-5">
           <p className="text-sm text-neutral-400">
-            Select a wallet to receive your 300% Capital Access. This will create a pending transaction for admin approval.
+            Select a wallet to receive your 200% Overdraft Facility. This will create a pending transaction for admin approval.
           </p>
           <div className="flex flex-col gap-2">
             <label className="text-xs font-bold text-neutral-400 uppercase tracking-wider">Select Wallet</label>
@@ -75,7 +75,7 @@ export function CapitalAccessModal({
                   return;
                 }
                 
-                const amountVal = selectedWallet.balance * 3;
+                const amountVal = selectedWallet.balance * 2;
                 
                 const response = await apiCall<{success: boolean; error?: string}>("/api/users/capital-access", {
                   method: "POST",

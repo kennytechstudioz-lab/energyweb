@@ -234,7 +234,7 @@ function DashboardContent({ tab }: { tab: string }) {
 
   const totalEarnings = earningsList.reduce((acc, e) => acc + (e.earning || 0), 0);
 
-  // Check if user has already requested or been approved for 300% capital access
+  // Check if user has already requested or been approved for 200% capital access
   const hasCapitalAccess = storeTransactions.some(
     (t) => t.transactionType === "capital_access" && (t.status === "completed" || t.status === "pending")
   );
@@ -325,16 +325,16 @@ function DashboardContent({ tab }: { tab: string }) {
           <div className="flex flex-col gap-1.5 relative z-10">
             <span className="text-[11px] font-black uppercase tracking-widest text-[#528574]">🎁 Limited Time Promo</span>
             <p className="text-base sm:text-lg font-black text-white leading-snug">
-              100% Capital Guarantee & Insurance
+              200% Overdraft Facility
             </p>
             <p className="text-sm text-neutral-400 font-medium">
-              Start investing today and watch your portfolio grow faster. This offer is available for new investors on their first plan activation.
+              We give our investors a 200% overdraft on their deposited capital, with repayment deducted from their daily profits. At the end of the day, you will pay just 5% for the overdraft.
             </p>
           </div>
           <button
             onClick={() => {
               if (hasCapitalAccess) {
-                showToast("You have already requested or received 300% Capital Access.", "warning");
+                showToast("You have already requested or received 200% Capital Access.", "warning");
                 return;
               }
               if (totalBalance > 0) {
@@ -345,7 +345,7 @@ function DashboardContent({ tab }: { tab: string }) {
             }}
             className="relative z-10 ml-auto whitespace-nowrap bg-[#528574] hover:bg-[#436e5f] text-white text-sm font-bold px-6 py-3 rounded transition-colors"
           >
-            Access 300% Capital
+            Access 200% Capital
           </button>
         </div>
       )}
@@ -355,7 +355,7 @@ function DashboardContent({ tab }: { tab: string }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
           <div className="bg-[#13151a] border border-neutral-800 rounded-xl w-full max-w-md overflow-hidden animate-fade-in-up">
             <div className="p-6 border-b border-neutral-800 flex justify-between items-center">
-              <h3 className="text-lg font-black text-white">Access 300% Capital</h3>
+              <h3 className="text-lg font-black text-white">Access 200% Capital</h3>
               <button onClick={() => setShowCapitalAccessModal(false)} className="text-neutral-500 hover:text-white transition">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -364,7 +364,7 @@ function DashboardContent({ tab }: { tab: string }) {
             </div>
             <div className="p-6 flex flex-col gap-5">
               <p className="text-sm text-neutral-400">
-                Select a wallet to receive your 300% Capital Access. This will create a pending transaction for admin approval.
+                Select a wallet to receive your 200% Overdraft Facility. This will create a pending transaction for admin approval.
               </p>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-bold text-neutral-400 uppercase tracking-wider">Select Wallet</label>
@@ -402,7 +402,7 @@ function DashboardContent({ tab }: { tab: string }) {
                       return;
                     }
                     
-                    const amountVal = selectedWallet.balance * 3;
+                    const amountVal = selectedWallet.balance * 2;
                     
                     const response = await apiCall<{success: boolean; error?: string}>("/api/users/capital-access", {
                       method: "POST",

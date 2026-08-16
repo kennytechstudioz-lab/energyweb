@@ -81,7 +81,7 @@ export default function Header() {
                 <span className="text-[10px]">↗</span>
                 <span>Landowners &amp; Partners</span>
               </Link>
-              <Link href="/plans" className="hover:text-[#009ADE] flex items-center gap-1 transition-colors">
+              <Link href="/community-energy" className="hover:text-[#009ADE] flex items-center gap-1 transition-colors">
                 <span className="text-[10px]">↗</span>
                 <span>Community Energy</span>
               </Link>

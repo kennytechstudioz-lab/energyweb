@@ -191,7 +191,7 @@ export default function AdminTransactionsPage() {
       return "Account Funding";
     }
     if (tx.transactionType === "capital_access") {
-      return "300% Capital Access";
+      return "200% Capital Access";
     }
     if (tx.planDuration === 15) return "CCUS Technology Fund";
     if (tx.planDuration === 30) return "Sovereign Carbon Fund";
