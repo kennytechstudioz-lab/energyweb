@@ -192,16 +192,27 @@ export default function Header() {
           <Link href="/projects" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#009ADE]">PROJECTS</Link>
           <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#009ADE]">CONTACT US</Link>
           <Link href="/faq" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#009ADE]">FAQ</Link>
+          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#009ADE]">LOGIN</Link>
+          <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#009ADE]">SIGN UP</Link>
         </nav>
 
-        <div className="mt-auto flex flex-col gap-4 pt-6 border-t border-white/10">
-          <Link
-            href="/register"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="w-full text-center bg-[#009ADE] hover:bg-[#0082be] text-white py-3.5 font-extrabold uppercase tracking-wider text-sm rounded-lg"
-          >
-            Get Started ↗
-          </Link>
+        <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-white/10">
+          <div className="grid grid-cols-2 gap-3">
+            <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full text-center border border-white/30 hover:border-white text-white py-3.5 font-extrabold uppercase tracking-wider text-sm rounded-lg transition-colors"
+            >
+              Log In
+            </Link>
+            <Link
+              href="/register"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full text-center bg-[#009ADE] hover:bg-[#0082be] text-white py-3.5 font-extrabold uppercase tracking-wider text-sm rounded-lg transition-colors"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </>

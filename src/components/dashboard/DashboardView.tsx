@@ -345,7 +345,7 @@ function DashboardContent({ tab }: { tab: string }) {
             }}
             className="relative z-10 ml-auto whitespace-nowrap bg-[#528574] hover:bg-[#436e5f] text-white text-sm font-bold px-6 py-3 rounded transition-colors"
           >
-            Access 200% Capital
+            Access 200% Overdraft
           </button>
         </div>
       )}
@@ -355,7 +355,7 @@ function DashboardContent({ tab }: { tab: string }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
           <div className="bg-[#13151a] border border-neutral-800 rounded-xl w-full max-w-md overflow-hidden animate-fade-in-up">
             <div className="p-6 border-b border-neutral-800 flex justify-between items-center">
-              <h3 className="text-lg font-black text-white">Access 200% Capital</h3>
+              <h3 className="text-lg font-black text-white">Access 200% Overdraft</h3>
               <button onClick={() => setShowCapitalAccessModal(false)} className="text-neutral-500 hover:text-white transition">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

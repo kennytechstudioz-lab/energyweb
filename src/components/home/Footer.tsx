@@ -68,6 +68,12 @@ export default function Footer() {
 
             {/* Sub-links (16px font size) */}
             <div className="flex flex-col gap-2.5 text-[16px] font-bold text-neutral-800">
+              <Link href="/login" className="hover:text-[#009ADE] flex items-center gap-1.5 transition-colors">
+                <span className="text-[12px]">↗</span> <span>Login</span>
+              </Link>
+              <Link href="/register" className="hover:text-[#009ADE] flex items-center gap-1.5 transition-colors">
+                <span className="text-[12px]">↗</span> <span>Sign Up</span>
+              </Link>
               <Link href="/contact" className="hover:text-[#009ADE] flex items-center gap-1.5 transition-colors">
                 <span className="text-[12px]">↗</span> <span>Contact Us</span>
               </Link>
@@ -101,10 +107,16 @@ export default function Footer() {
             
             {/* Nav Column 1 */}
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2.5">
                 <span className="font-black text-neutral-900 uppercase tracking-wider text-[12px]">
-                  CUSTOMERS
+                  PORTAL &amp; ACCOUNT
                 </span>
+                <Link href="/login" className="font-bold text-neutral-700 hover:text-[#009ADE] leading-tight transition-colors">
+                  Login
+                </Link>
+                <Link href="/register" className="font-bold text-neutral-700 hover:text-[#009ADE] leading-tight transition-colors">
+                  Sign Up
+                </Link>
               </div>
 
               <div className="flex flex-col gap-2.5">
@@ -213,6 +225,22 @@ export default function Footer() {
           {/* Right Column (3 cols): Action Buttons */}
           <div className="lg:col-span-3 flex flex-col gap-4">
             
+            {/* Login & Sign Up Quick Action Buttons */}
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href="/login"
+                className="w-full border-2 border-neutral-900 bg-white hover:bg-neutral-900 hover:text-white text-neutral-900 py-3.5 font-extrabold text-xs sm:text-sm tracking-wider flex items-center justify-center rounded transition-all text-center"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="w-full bg-[#009ADE] hover:bg-[#0082be] text-white py-3.5 font-extrabold text-xs sm:text-sm tracking-wider flex items-center justify-center rounded transition-all text-center"
+              >
+                Sign Up
+              </Link>
+            </div>
+
             {/* Solid #009ADE Button */}
             <Link
               href="/about"
@@ -244,7 +272,15 @@ export default function Footer() {
           <div>
             © 2026 New Energy Holdings Group LLC. All rights reserved. The overlapping circle and square are registered service marks of New Energy Holdings Group LLC.
           </div>
-          <div>
+          <div className="flex items-center gap-4">
+            <Link href="/login" className="hover:text-[#009ADE] underline underline-offset-2 transition-colors">
+              Login
+            </Link>
+            <span>•</span>
+            <Link href="/register" className="hover:text-[#009ADE] underline underline-offset-2 transition-colors">
+              Sign Up
+            </Link>
+            <span>•</span>
             <Link href="/privacy-policy" className="hover:text-[#009ADE] underline underline-offset-2 transition-colors">
               Privacy Policy
             </Link>
