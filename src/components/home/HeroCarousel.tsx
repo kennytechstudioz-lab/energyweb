@@ -45,8 +45,8 @@ export default function HeroCarousel() {
   }, [slides]);
 
   const activeSlide = slides[currentIndex] || {
-    title: "Our vision is a world powered by clean energy.",
-    subtitle: "We develop, own, and operate a growing fleet of clean energy projects across the country.",
+    title: "200% Overdraft Facility",
+    subtitle: "Giving investors a 100% guarantee on their invested capital.",
     picture: "/images/banner.jpg",
     author: "New Energy Holdings",
   };
@@ -97,14 +97,14 @@ export default function HeroCarousel() {
           {/* Left Column: Big Vision Headline */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.06]">
-              {activeSlide.title || "Our vision is a world powered by clean energy."}
+              {activeSlide.title || "200% Overdraft Facility"}
             </h1>
           </div>
 
           {/* Right Column: Subtitle + Dual CTA Buttons */}
           <div className="lg:col-span-5 flex flex-col gap-8 text-left">
             <p className="text-base sm:text-xl text-white/90 font-medium leading-relaxed max-w-lg">
-              {activeSlide.subtitle || "We develop, own, and operate a growing fleet of clean energy projects across the country."}
+              {activeSlide.subtitle || "Giving investors a 100% guarantee on their invested capital."}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
