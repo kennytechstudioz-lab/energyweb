@@ -1,9 +1,31 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function AboutHeroSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const heroBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "about-hero");
+  }, [blogs]);
+
+  if (!heroBlog) {
+    return null;
+  }
+
+  const title = heroBlog.title;
+  const subtitle =
+    heroBlog.content?.replace(/<[^>]*>?/gm, "") ||
+    heroBlog.subtitle ||
+    "";
+  const picture = heroBlog.picture || "/images/team.jpg";
+
   const scrollToNext = () => {
     window.scrollTo({
       top: window.innerHeight * 0.85,
@@ -17,8 +39,8 @@ export default function AboutHeroSection() {
       {/* Background Image Container with Overlay */}
       <div className="absolute inset-0 w-full h-full">
         <Image
-          src="/images/team"
-          alt="New Energy Holdings clean energy team"
+          src={picture}
+          alt={title}
           fill
           priority
           sizes="100vw"
@@ -34,15 +56,17 @@ export default function AboutHeroSection() {
           {/* Left Column: Headline */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.06]">
-              New Energy Holdings is moving the energy transition forward
+              {title}
             </h1>
           </div>
 
           {/* Right Column: Subtitle + Outline Button */}
           <div className="lg:col-span-5 flex flex-col gap-8 text-left">
-            <p className="text-base sm:text-xl text-white/90 font-medium leading-relaxed max-w-lg">
-              We are a leading integrated clean energy company with one of the top ten largest renewable operating fleets in the US.
-            </p>
+            {subtitle && (
+              <p className="text-base sm:text-xl text-white/90 font-medium leading-relaxed max-w-lg">
+                {subtitle}
+              </p>
+            )}
 
             <div className="pt-2">
               <button

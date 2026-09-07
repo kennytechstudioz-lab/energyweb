@@ -1,57 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { useBlogStore } from "@/store/blogStore";
 
 interface ValueItem {
   title: string;
   description: string;
 }
 
-const valuesList: ValueItem[] = [
-  {
-    title: "Prioritize Safety",
-    description:
-      "In the field and in the office, always putting first the well-being of our people, our neighbors, and our environment.",
-  },
-  {
-    title: "Serve Our Communities",
-    description:
-      "Fostering long-term partnerships, listening to local needs, and driving positive economic and social impact where we operate.",
-  },
-  {
-    title: "Support Our People",
-    description:
-      "Creating an inclusive, supportive, and rewarding environment where every employee can thrive and grow professionally.",
-  },
-  {
-    title: "Act With Integrity",
-    description:
-      "Upholding the highest ethical standards, transparency, and honesty in all of our business dealings and partnerships.",
-  },
-  {
-    title: "Be Accountable",
-    description:
-      "Taking ownership of our commitments, delivering on our promises to stakeholders, and holding ourselves responsible for results.",
-  },
-  {
-    title: "Invest Resources Wisely",
-    description:
-      "Optimizing capital allocation, practicing prudent financial stewardship, and ensuring long-term value creation for investors.",
-  },
-  {
-    title: "Collaborate Intentionally",
-    description:
-      "Working seamlessly across teams, partners, and communities to unlock innovation and achieve shared goals.",
-  },
-  {
-    title: "Improve Continuously",
-    description:
-      "Embracing innovation, refining operational efficiency, and constantly pushing the boundaries of clean energy excellence.",
-  },
-];
-
 export default function OurValuesSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0); // First row open by default matching screenshot
+  const { blogs, fetchBlogs } = useBlogStore();
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const dynamicValues: ValueItem[] = useMemo(() => {
+    const items = blogs.filter((b) => b.category?.toLowerCase().trim() === "values");
+    if (!items || items.length === 0) return [];
+
+    return items.map((b) => ({
+      title: b.title,
+      description: b.content ? b.content.replace(/<[^>]*>?/gm, "") : "",
+    }));
+  }, [blogs]);
+
+  if (dynamicValues.length === 0) {
+    return null;
+  }
 
   const toggleItem = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -78,9 +55,9 @@ export default function OurValuesSection() {
             </p>
           </div>
 
-          {/* Right Column: 8 Accordion Rows */}
+          {/* Right Column: Accordion Rows */}
           <div className="lg:col-span-7 flex flex-col border-t border-neutral-300">
-            {valuesList.map((item, idx) => {
+            {dynamicValues.map((item, idx) => {
               const isOpen = openIndex === idx;
               return (
                 <div

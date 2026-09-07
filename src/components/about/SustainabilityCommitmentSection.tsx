@@ -1,10 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function SustainabilityCommitmentSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const sustBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "sustainability");
+  }, [blogs]);
+
+  if (!sustBlog) {
+    return null;
+  }
+
+  const title = sustBlog.title;
+  const picture = sustBlog.picture || "/images/landowners.jpg";
+
+  const content = sustBlog.content || "";
+  const paragraphs = content
+    .split(/<br\s*\/?>|\n\n/)
+    .map((p) => p.replace(/<[^>]*>?/gm, "").trim())
+    .filter(Boolean);
+
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-[10px] md:px-6">
@@ -14,7 +38,7 @@ export default function SustainabilityCommitmentSection() {
           <div className="lg:col-span-7 relative w-full">
             <div className="relative w-full aspect-[1.4/1] rounded-2xl overflow-hidden bg-neutral-50 border border-neutral-100 group">
               <Image
-                src="/images/landowners.jpg"
+                src={picture}
                 alt="New Energy Holdings landowner partners and sustainable agriculture"
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
@@ -27,17 +51,16 @@ export default function SustainabilityCommitmentSection() {
           {/* Right Column: Title, Copy & CTA Button */}
           <div className="lg:col-span-5 flex flex-col gap-6 items-start">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight leading-[1.08]">
-              Our commitment to sustainability
+              {title}
             </h2>
 
-            <div className="flex flex-col gap-4 text-base sm:text-lg text-neutral-600 font-medium leading-relaxed">
-              <p>
-                New Energy Holdings is committed to sustainability in all aspects of our operations and governance.
-              </p>
-              <p>
-                We are guided by our operating principles and a robust framework of policies that ensure our actions are fair, balanced, and ethical.
-              </p>
-            </div>
+            {paragraphs.length > 0 && (
+              <div className="flex flex-col gap-4 text-base sm:text-lg text-neutral-600 font-medium leading-relaxed">
+                {paragraphs.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+            )}
 
             <div className="pt-2">
               <Link

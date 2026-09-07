@@ -1,29 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
+
+interface OverviewCard {
+  title: string;
+  bgClass: string;
+  offset: string;
+  text: string;
+}
+
+const COLOR_VARIANTS = [
+  { bgClass: "bg-[#004bb4]", offset: "0%" },
+  { bgClass: "bg-[#f59e0b]", offset: "-100%" },
+  { bgClass: "bg-[#eab308]", offset: "-200%" },
+];
 
 export default function CommunityEnergyOverviewSection() {
-  const cards = [
-    {
-      title: "Impact",
-      bgClass: "bg-[#004bb4]", // Bold Blue
-      offset: "0%",
-      text: "Joining your local solar farm means supporting renewable power for your community and helping reduce our dependence on fossil fuels.",
-    },
-    {
-      title: "Convenience",
-      bgClass: "bg-[#f59e0b]", // Amber / Orange
-      offset: "-100%",
-      text: "No panel installation on your property, and no maintenance. Plus, no upfront costs, no green power premiums, and no Retail Energy teaser rates.",
-    },
-    {
-      title: "Community",
-      bgClass: "bg-[#eab308]", // Vibrant Yellow / Gold
-      offset: "-200%",
-      text: "It starts with one individual, and builds through the collective effort — through a community. Together, our subscribers support renewable power and in return, receive bill credits that help them save on electricity.",
-    },
-  ];
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const cards = useMemo(() => {
+    const items = blogs.filter(
+      (b) =>
+        b.category?.toLowerCase().trim() === "community-energy" &&
+        !b.shortName?.includes("Hero")
+    );
+    if (!items || items.length === 0) return [];
+
+    return items.map((b, idx) => {
+      const meta = COLOR_VARIANTS[idx % COLOR_VARIANTS.length];
+      return {
+        title: b.title,
+        bgClass: meta.bgClass,
+        offset: meta.offset,
+        text: b.content ? b.content.replace(/<[^>]*>?/gm, "") : "",
+      };
+    });
+  }, [blogs]);
+
+  if (cards.length === 0) {
+    return null;
+  }
 
   return (
     <section className="w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 antialiased">
@@ -43,7 +65,7 @@ export default function CommunityEnergyOverviewSection() {
 
         {/* 3-Column Panoramic Image Grid Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-4">
-          {cards.map((card, idx) => (
+          {cards.map((card) => (
             <div key={card.title} className="flex flex-col gap-5 text-center group">
               {/* Image Frame with sliced view of panels.jpg */}
               <div className="relative h-[240px] sm:h-[290px] w-full overflow-hidden rounded-md shadow-md border border-neutral-200 bg-neutral-100">

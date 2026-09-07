@@ -1,10 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function AboutCareersSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const careerBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "careers");
+  }, [blogs]);
+
+  if (!careerBlog) {
+    return null;
+  }
+
+  const title = careerBlog.title;
+  const subtitle =
+    careerBlog.content?.replace(/<[^>]*>?/gm, "") ||
+    careerBlog.subtitle ||
+    "";
+  const picture = careerBlog.picture || "/images/technician.jpg";
+
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-[10px] md:px-6">
@@ -14,7 +36,7 @@ export default function AboutCareersSection() {
           <div className="lg:col-span-7 relative w-full">
             <div className="relative w-full aspect-[1.4/1] rounded-2xl overflow-hidden bg-neutral-50 border border-neutral-100 group">
               <Image
-                src="/images/technician.jpg"
+                src={picture}
                 alt="New Energy Holdings clean energy wind technicians"
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
@@ -32,11 +54,11 @@ export default function AboutCareersSection() {
             </div>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight leading-[1.08]">
-              We want to build with you
+              {title}
             </h2>
 
             <p className="text-base sm:text-lg text-neutral-600 font-medium leading-relaxed">
-              We have open positions spanning nearly every facet of the clean energy transition.
+              {subtitle}
             </p>
 
             <div className="pt-2">

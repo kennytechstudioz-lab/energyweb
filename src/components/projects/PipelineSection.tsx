@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 interface PipelineTab {
   id: string;
@@ -12,40 +13,36 @@ interface PipelineTab {
   statLabel: string;
 }
 
-const pipelineTabs: PipelineTab[] = [
-  {
-    id: "wind",
-    name: "Wind energy",
-    image: "/images/windenergy.webp",
-    description:
-      "New Energy Holdings is working in 23 states to bring reliable and low-cost clean energy to the grid.",
-    statNumber: "6 GW",
-    statLabel: "in wind development",
-  },
-  {
-    id: "solar",
-    name: "Solar energy",
-    image: "/images/solarenergy.webp",
-    description:
-      "Our utility-scale solar projects provide zero-emission power, expanding energy independence and regional economic development.",
-    statNumber: "18 GW",
-    statLabel: "in solar development",
-  },
-  {
-    id: "storage",
-    name: "Energy storage",
-    image: "/images/storageenergy.webp",
-    description:
-      "Next-generation battery storage systems ensure grid stability, firming renewable generation for 24/7 reliability.",
-    statNumber: "6 GW",
-    statLabel: "in storage development",
-  },
-];
-
 export default function PipelineSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const current = pipelineTabs[activeTab];
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const dynamicTabs: PipelineTab[] = useMemo(() => {
+    const items = blogs.filter((b) => b.category?.toLowerCase().trim() === "pipeline");
+    if (!items || items.length === 0) return [];
+
+    return items.map((b, idx) => ({
+      id: b.shortName?.toLowerCase() || `pipe-${idx}`,
+      name: b.title,
+      image: b.picture || "/images/windenergy.webp",
+      description: b.content ? b.content.replace(/<[^>]*>?/gm, "") : "",
+      statNumber: b.abbreviation || "",
+      statLabel: b.subtitle || "",
+    }));
+  }, [blogs]);
+
+  if (dynamicTabs.length === 0) {
+    return null;
+  }
+
+  const current = dynamicTabs[activeTab] || dynamicTabs[0];
+  if (!current) {
+    return null;
+  }
 
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
@@ -91,11 +88,11 @@ export default function PipelineSection() {
 
         {/* 3 Clickable Circular Tab Triggers */}
         <div className="grid grid-cols-3 gap-6 sm:gap-10 max-w-3xl mx-auto w-full">
-          {pipelineTabs.map((tab, idx) => {
+          {dynamicTabs.map((tab, idx) => {
             const isActive = activeTab === idx;
             return (
               <div
-                key={tab.id}
+                key={tab.id || idx}
                 onClick={() => setActiveTab(idx)}
                 className="flex flex-col items-start gap-6 cursor-pointer group select-none"
               >

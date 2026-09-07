@@ -4,27 +4,24 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSettingStore } from "@/store/settingStore";
-import { useBlogStore } from "@/store/blogStore";
 
 export default function Footer() {
   const { setting, fetchSettings } = useSettingStore();
-  const { blogs, fetchBlogs } = useBlogStore();
 
   useEffect(() => {
     fetchSettings();
-    fetchBlogs();
-  }, [fetchSettings, fetchBlogs]);
+  }, [fetchSettings]);
 
   return (
     <footer className="relative w-full bg-[#f8fafc] text-neutral-900 pt-16 pb-8 overflow-hidden border-t border-neutral-200">
       <div className="max-w-[1440px] mx-auto px-[10px] md:px-6">
-        
+
         {/* Main Footer Layout: Left Brand Block, Middle Nav Columns, Right Action Buttons */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 items-start">
-          
+
           {/* Left Column (4 cols): Socials, Logo, Paragraph (16px), Links (16px) & MilitaryTimes Badges */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            
+
             {/* Social Media Circular Buttons */}
             <div className="flex items-center gap-3">
               <a
@@ -66,6 +63,20 @@ export default function Footer() {
               Our mission is to make clean, competitive, and reliable energy. Our energy assets generate enough electricity to power 2 million American homes every year.
             </p>
 
+            {/* Physical Address from Admin Settings */}
+            {setting?.address && (
+              <div className="flex items-start gap-2.5 text-[15px] font-semibold text-neutral-800 bg-neutral-100/80 border border-neutral-200/80 p-3.5 rounded-lg max-w-md">
+                <svg className="w-5 h-5 text-[#009ADE] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-neutral-500">Corporate Address</span>
+                  <span className="leading-snug text-neutral-900">{setting.address}</span>
+                </div>
+              </div>
+            )}
+
             {/* Sub-links (16px font size) */}
             <div className="flex flex-col gap-2.5 text-[16px] font-bold text-neutral-800">
               <Link href="/login" className="hover:text-[#009ADE] flex items-center gap-1.5 transition-colors">
@@ -89,7 +100,7 @@ export default function Footer() {
             </div>
 
             {/* Bottom Left Badge: MilitaryTimes.webp */}
-            <div className="pt-2">
+            {/* <div className="pt-2">
               <div className="relative w-full max-w-[260px] aspect-[2.4/1]">
                 <Image
                   src="/MilitaryTimes.webp"
@@ -98,13 +109,13 @@ export default function Footer() {
                   className="object-contain object-left"
                 />
               </div>
-            </div>
+            </div> */}
 
           </div>
 
           {/* Middle Columns (5 cols): Categorized Nav Links (16px font size) */}
           <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-8 text-[16px]">
-            
+
             {/* Nav Column 1 */}
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2.5">
@@ -224,7 +235,7 @@ export default function Footer() {
 
           {/* Right Column (3 cols): Action Buttons */}
           <div className="lg:col-span-3 flex flex-col gap-4">
-            
+
             {/* Login & Sign Up Quick Action Buttons */}
             <div className="grid grid-cols-2 gap-3">
               <Link
@@ -269,10 +280,13 @@ export default function Footer() {
 
         {/* Sub-footer Divider & Copyright */}
         <div className="pt-6 border-t border-neutral-300 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] font-semibold text-neutral-600">
-          <div>
-            © 2026 New Energy Holdings Group LLC. All rights reserved. The overlapping circle and square are registered service marks of New Energy Holdings Group LLC.
+          <div className="flex flex-wrap items-center gap-2">
+            <span>© 2026 {setting?.companyName || "New Energy Holdings Group LLC"}. All rights reserved. The overlapping circle and square are registered service marks of New Energy Holdings Group LLC.</span>
+            {setting?.address && (
+              <span className="text-neutral-500">• {setting.address}</span>
+            )}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <Link href="/login" className="hover:text-[#009ADE] underline underline-offset-2 transition-colors">
               Login
             </Link>

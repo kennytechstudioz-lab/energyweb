@@ -4,7 +4,28 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { useBlogStore } from "@/store/blogStore";
+
 export default function ProjectsHeroSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  React.useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const projectBlog = React.useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "projects");
+  }, [blogs]);
+
+  if (!projectBlog) {
+    return null;
+  }
+
+  const title = projectBlog.title;
+  const subtitle =
+    projectBlog.subtitle ||
+    (projectBlog.content ? projectBlog.content.replace(/<[^>]*>?/gm, "") : "");
+
   const scrollToVideos = () => {
     window.scrollTo({
       top: window.innerHeight * 0.8,
@@ -40,12 +61,12 @@ export default function ProjectsHeroSection() {
 
         {/* Big Cyan-Blue Headline */}
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#009ADE] tracking-tight leading-none mb-6">
-          Project development
+          {title}
         </h1>
 
         {/* Subtitle Paragraph */}
         <p className="text-base sm:text-xl font-bold text-neutral-900 leading-relaxed max-w-3xl mb-10">
-          From the very first kitchen table meetings with landowners to breaking ground for construction, New Energy Holdings is involved in every step of the development process.
+          {subtitle}
         </p>
 
         {/* Dual Action Buttons */}

@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 interface LocationItem {
+  _id?: string;
   title: string;
   image: string;
   address: string;
@@ -11,51 +13,42 @@ interface LocationItem {
   phone?: string;
 }
 
-const locations: LocationItem[] = [
-  {
-    title: "HQ in San Francisco, CA",
-    image: "/images/fransico.webp",
-    address: "100 California Street, Suite 650",
-    cityStateZip: "San Francisco, CA 94111",
-    phone: "415-627-1600",
-  },
-  {
-    title: "Houston, TX",
-    image: "/images/houston.webp",
-    address: "1200 Smith Street, Suite 600",
-    cityStateZip: "Houston, TX 77002",
-    phone: "346-293-7100",
-  },
-  {
-    title: "Princeton, NJ",
-    image: "/images/princeton.png",
-    address: "902 Carnegie Center, Suite 520",
-    cityStateZip: "Princeton, NJ 08540",
-    phone: "609-608-1525",
-  },
-  {
-    title: "Scottsdale, AZ",
-    image: "/images/scottsdale.webp",
-    address: "4900 N Scottsdale Road, Suite 5000",
-    cityStateZip: "Scottsdale, AZ 85251",
-    phone: "480-424-1300",
-  },
-  {
-    title: "San Diego, CA",
-    image: "/images/sandiego.webp",
-    address: "11988 El Camino Real, Suite 500",
-    cityStateZip: "San Diego, CA 92130",
-    phone: "760-710-2140",
-  },
-  {
-    title: "Denver, CO",
-    image: "/images/denver.webp",
-    address: "1099 18th Street, Suite 2520",
-    cityStateZip: "Denver, Colorado 80202",
-  },
-];
-
 export default function ContactLocationsSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  // Read purely dynamic location blogs from MongoDB
+  const dynamicLocations: LocationItem[] = useMemo(() => {
+    const items = blogs.filter(
+      (b) => b.category?.toLowerCase().trim() === "locations"
+    );
+
+    return items.map((b) => {
+      // Content can be "100 California Street, Suite 650<br/>San Francisco, CA 94111" or multiline
+      const cleanContent = b.content.replace(/<[^>]*>?/gm, "\n").trim();
+      const lines = cleanContent.split("\n").map((l) => l.trim()).filter(Boolean);
+      const street = lines[0] || "";
+      const city = b.subtitle || lines[1] || "";
+      const phone = b.shortName || "";
+
+      return {
+        _id: b._id,
+        title: b.title,
+        image: b.picture || "/images/fransico.webp",
+        address: street,
+        cityStateZip: city,
+        phone: phone,
+      };
+    });
+  }, [blogs]);
+
+  if (dynamicLocations.length === 0) {
+    return null;
+  }
+
   return (
     <section
       id="contact-locations-section"
@@ -70,10 +63,10 @@ export default function ContactLocationsSection() {
           </h2>
         </div>
 
-        {/* 2-Column Grid of 6 Locations */}
+        {/* 2-Column Grid of Dynamic Locations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-12 lg:gap-y-14">
-          {locations.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-6 group">
+          {dynamicLocations.map((item, idx) => (
+            <div key={item._id || idx} className="flex items-center gap-6 group">
               
               {/* Circular City Photo with Gold/Yellow Accent Ring */}
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#eab308] overflow-hidden relative shadow-sm flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
@@ -92,12 +85,16 @@ export default function ContactLocationsSection() {
                   {item.title}
                 </h3>
                 
-                <p className="text-xs sm:text-sm font-semibold text-neutral-800 leading-snug mt-1.5">
-                  {item.address}
-                </p>
-                <p className="text-xs sm:text-sm font-semibold text-neutral-800 leading-snug">
-                  {item.cityStateZip}
-                </p>
+                {item.address && (
+                  <p className="text-xs sm:text-sm font-semibold text-neutral-800 leading-snug mt-1.5">
+                    {item.address}
+                  </p>
+                )}
+                {item.cityStateZip && (
+                  <p className="text-xs sm:text-sm font-semibold text-neutral-800 leading-snug">
+                    {item.cityStateZip}
+                  </p>
+                )}
                 
                 {item.phone && (
                   <a

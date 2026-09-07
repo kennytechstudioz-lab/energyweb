@@ -1,28 +1,57 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function CommunitySection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const communityBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "community");
+  }, [blogs]);
+
+  if (!communityBlog) {
+    return null;
+  }
+
+  const title = communityBlog.title;
+  const tag = communityBlog.subtitle || "HOW WE'RE DIFFERENT";
+  const bgImage = communityBlog.picture || "/images/charity.jpg";
+
+  // Parse paragraphs purely from content
+  const content = communityBlog.content || "";
+  const rawParagraphs = content
+    .split(/<br\s*\/?>|\n\n/)
+    .map((p) => p.replace(/<[^>]*>?/gm, "").trim())
+    .filter(Boolean);
+
+  const paragraph1 = rawParagraphs[0] || "";
+  const paragraph2 = rawParagraphs[1] || "";
+
   return (
     <section
       className="relative w-full min-h-screen py-20 md:py-28 bg-cover bg-center text-white overflow-hidden flex flex-col justify-center"
-      style={{ backgroundImage: "url('/images/charity.jpg')" }}
+      style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Dark Ambient Overlay for High Text Contrast */}
       <div className="absolute inset-0 bg-neutral-950/70 z-10 pointer-events-none" />
 
       <div className="relative z-20 max-w-[1440px] mx-auto px-[10px] md:px-6 w-full flex flex-col lg:flex-row items-start lg:items-end justify-between gap-12 lg:gap-16">
         
-        {/* Left Side: Vertical Title & Tag matching screenshot layout */}
+        {/* Left Side: Vertical Title & Tag */}
         <div className="flex flex-col gap-4 lg:py-6 max-w-lg lg:max-w-md">
           <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-white/90">
             <span className="w-2.5 h-2.5 rounded-full bg-[#009ADE]" />
-            <span>HOW WE'RE DIFFERENT</span>
+            <span>{tag}</span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.08] tracking-tight">
-            Investing in communities
+            {title}
           </h2>
         </div>
 
@@ -31,9 +60,11 @@ export default function CommunitySection() {
           
           {/* Column 1: Paragraph 1 + CTA Button */}
           <div className="flex flex-col gap-6">
-            <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
-              New Energy Holdings is proud to be a force for good in the communities where we work and build on our reputation as a responsible, committed, and invested long-term neighbor.
-            </p>
+            {paragraph1 && (
+              <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
+                {paragraph1}
+              </p>
+            )}
 
             <div>
               <Link
@@ -50,9 +81,11 @@ export default function CommunitySection() {
 
           {/* Column 2: Paragraph 2 */}
           <div className="flex flex-col gap-6">
-            <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
-              Through educational partnerships, volunteer work, internship programs, direct donations, and more, our community benefits initiatives are always tailored to meet local needs.
-            </p>
+            {paragraph2 && (
+              <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
+                {paragraph2}
+              </p>
+            )}
           </div>
 
         </div>

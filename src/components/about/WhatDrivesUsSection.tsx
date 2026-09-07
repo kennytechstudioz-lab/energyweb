@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 interface PillarItem {
   title: string;
@@ -9,34 +10,28 @@ interface PillarItem {
   description: string;
 }
 
-const pillars: PillarItem[] = [
-  {
-    title: "Expertise",
-    image: "/images/expert.webp",
-    description:
-      "New Energy Holdings’s extensive experience with all aspects of project development, project finance, operations, and customer service has made us a leader in the renewable energy industry.",
-  },
-  {
-    title: "Leadership",
-    image: "/images/leadership.webp",
-    description:
-      "New Energy Holdings’s leadership team represents decades of experience across renewable energy sectors and fosters a culture of integrity, accountability, and teamwork. The leadership team brings strategic vision to our platform, establishing a road map for the growth of our company.",
-  },
-  {
-    title: "People",
-    image: "/images/people.webp",
-    description:
-      "New Energy Holdings’s employees work across six offices and hundreds of sites. The team offers a diverse range of experience, including longtime solar and wind industry leaders, energy engineers, project developers, investment specialists, and experts in environmental issues, permitting, interconnection, transmission, and power plant operations.",
-  },
-  {
-    title: "Community",
-    image: "/images/community.webp",
-    description:
-      "Community engagement at New Energy Holdings starts with listening to the interests and needs of local communities, with our site teams taking a leadership role.",
-  },
-];
-
 export default function WhatDrivesUsSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const dynamicPillars: PillarItem[] = useMemo(() => {
+    const items = blogs.filter((b) => b.category?.toLowerCase().trim() === "pillars");
+    if (!items || items.length === 0) return [];
+
+    return items.map((b) => ({
+      title: b.title,
+      image: b.picture || "/images/expert.webp",
+      description: b.content ? b.content.replace(/<[^>]*>?/gm, "") : "",
+    }));
+  }, [blogs]);
+
+  if (dynamicPillars.length === 0) {
+    return null;
+  }
+
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-[10px] md:px-6">
@@ -60,7 +55,7 @@ export default function WhatDrivesUsSection() {
 
           {/* Right Column: 2x2 Pillars Grid */}
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
-            {pillars.map((item, idx) => (
+            {dynamicPillars.map((item, idx) => (
               <div key={idx} className="flex flex-col gap-4 items-start">
                 
                 <div className="flex items-center gap-4">

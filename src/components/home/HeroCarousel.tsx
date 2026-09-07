@@ -44,50 +44,36 @@ export default function HeroCarousel() {
     return () => { if (autoplayTimer.current) clearInterval(autoplayTimer.current); };
   }, [slides]);
 
-  const activeSlide = slides[currentIndex] || {
-    title: "200% Overdraft Facility",
-    subtitle: "Giving investors a 100% guarantee on their invested capital.",
-    picture: "/images/banner.jpg",
-    author: "New Energy Holdings",
-  };
+  if (slides.length === 0) {
+    return null;
+  }
+
+  const activeSlide = slides[currentIndex] || slides[0];
+  if (!activeSlide) return null;
 
   return (
     <section className="relative w-full min-h-[85vh] md:min-h-[90vh] bg-neutral-900 text-white flex flex-col justify-center overflow-hidden">
       
       {/* Background Image Container with Overlay */}
       <div className="absolute inset-0 w-full h-full">
-        {slides.length > 0 ? (
-          slides.map((slide, idx) => (
-            <div
-              key={slide._id || idx}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-                idx === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-              }`}
-            >
-              <Image
-                src={slide.picture || "/images/banner.jpg"}
-                alt={slide.title}
-                fill
-                priority={idx === 0}
-                sizes="100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-black/45 z-10" />
-            </div>
-          ))
-        ) : (
-          <div className="relative w-full h-full">
+        {slides.map((slide, idx) => (
+          <div
+            key={slide._id || idx}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+              idx === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+            }`}
+          >
             <Image
-              src="/images/banner.jpg"
-              alt="Clean energy operations"
+              src={slide.picture || "/images/banner.jpg"}
+              alt={slide.title}
               fill
-              priority
+              priority={idx === 0}
               sizes="100vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-black/45 z-10" />
           </div>
-        )}
+        ))}
       </div>
 
       {/* Main Hero Content Area */}
@@ -97,15 +83,17 @@ export default function HeroCarousel() {
           {/* Left Column: Big Vision Headline */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.06]">
-              {activeSlide.title || "200% Overdraft Facility"}
+              {activeSlide.title}
             </h1>
           </div>
 
           {/* Right Column: Subtitle + Dual CTA Buttons */}
           <div className="lg:col-span-5 flex flex-col gap-8 text-left">
-            <p className="text-base sm:text-xl text-white/90 font-medium leading-relaxed max-w-lg">
-              {activeSlide.subtitle || "Giving investors a 100% guarantee on their invested capital."}
-            </p>
+            {activeSlide.subtitle && (
+              <p className="text-base sm:text-xl text-white/90 font-medium leading-relaxed max-w-lg">
+                {activeSlide.subtitle}
+              </p>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               {/* Button 1: Solid #009ADE with diagonal arrow */}

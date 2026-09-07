@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 interface ValueTab {
   id: string;
@@ -12,40 +13,36 @@ interface ValueTab {
   statLabel: string;
 }
 
-const valueTabs: ValueTab[] = [
-  {
-    id: "quality",
-    name: "Quality",
-    image: "/images/wind.webp",
-    quote:
-      "We build to last: our projects, our partnerships, our people, and our business.",
-    statNumber: "450+",
-    statLabel: "projects in our operating fleet",
-  },
-  {
-    id: "respect",
-    name: "Respect",
-    image: "/images/worker.webp",
-    quote:
-      "We consider perspectives from all directions, value backgrounds of all kinds, strive to understand through new lenses, and communicate thoughtfully.",
-    statNumber: "25%",
-    statLabel: "of employees are actively involved in our inclusion groups",
-  },
-  {
-    id: "possibility",
-    name: "Possibility",
-    image: "/images/crane.webp",
-    quote:
-      "We seek to realize the potential in our people, our partners, and our projects.",
-    statNumber: "900",
-    statLabel: "landowners hosting our projects",
-  },
-];
-
 export default function RootedInValuesSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const current = valueTabs[activeTab];
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const dynamicTabs: ValueTab[] = useMemo(() => {
+    const items = blogs.filter((b) => b.category?.toLowerCase().trim() === "rooted-values");
+    if (!items || items.length === 0) return [];
+
+    return items.map((b, idx) => ({
+      id: b.shortName?.toLowerCase() || `val-${idx}`,
+      name: b.title,
+      image: b.picture || "/images/wind.webp",
+      quote: b.content ? b.content.replace(/<[^>]*>?/gm, "") : "",
+      statNumber: b.abbreviation || "",
+      statLabel: b.subtitle || "",
+    }));
+  }, [blogs]);
+
+  if (dynamicTabs.length === 0) {
+    return null;
+  }
+
+  const current = dynamicTabs[activeTab] || dynamicTabs[0];
+  if (!current) {
+    return null;
+  }
 
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
@@ -82,11 +79,11 @@ export default function RootedInValuesSection() {
 
         {/* 3 Clickable Value Tabs with Indicator Bars & Circular Photos */}
         <div className="grid grid-cols-3 gap-6 sm:gap-10 max-w-4xl mx-auto w-full">
-          {valueTabs.map((tab, idx) => {
+          {dynamicTabs.map((tab, idx) => {
             const isActive = activeTab === idx;
             return (
               <div
-                key={tab.id}
+                key={tab.id || idx}
                 onClick={() => setActiveTab(idx)}
                 className="flex flex-col items-start gap-6 cursor-pointer group select-none"
               >

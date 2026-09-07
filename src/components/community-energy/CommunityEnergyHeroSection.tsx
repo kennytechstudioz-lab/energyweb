@@ -1,11 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function CommunityEnergyHeroSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const heroBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "community-energy" && b.shortName?.includes("Hero"));
+  }, [blogs]);
+
+  if (!heroBlog) {
+    return null;
+  }
+
+  const title = heroBlog.title;
+  const subtitle =
+    heroBlog.content?.replace(/<[^>]*>?/gm, "") ||
+    heroBlog.subtitle ||
+    "";
+  const picture = heroBlog.picture || "/images/community.jpg";
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -31,8 +52,8 @@ export default function CommunityEnergyHeroSection() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/community.jpg"
-            alt="Community Roofless Solar Solution"
+            src={picture}
+            alt={title}
             fill
             priority
             className="object-cover object-center"
@@ -43,9 +64,7 @@ export default function CommunityEnergyHeroSection() {
         {/* Top Space & Centered Headline Header */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 pt-16 sm:pt-24 md:pt-28 flex flex-col items-center gap-4">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.15] drop-shadow-lg max-w-4xl">
-            Your Roofless Solar Solution<br />
-            Support Clean Power<br />
-            with Guaranteed Savings
+            {title}
           </h1>
         </div>
 
@@ -58,7 +77,7 @@ export default function CommunityEnergyHeroSection() {
             }}
           >
             <p className="text-white font-medium text-sm sm:text-base md:text-lg max-w-3xl leading-relaxed drop-shadow-sm font-sans">
-              Go solar and support 100% renewable power - no roof required. PLUS: No green power premiums, no upfront costs, and no retail energy gimmicks. And no cancellation fees.
+              {subtitle}
             </p>
 
             <button

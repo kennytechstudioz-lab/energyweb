@@ -15,16 +15,16 @@ export interface BlogData {
   createdAt?: string;
 }
 
-
-
 interface BlogState {
   blogs: BlogData[];
   isLoading: boolean;
   error: string | null;
-  fetchBlogs: () => Promise<void>;
+  fetchBlogs: (force?: boolean) => Promise<void>;
   createBlog: (data: BlogData) => Promise<{ success: boolean; error?: string }>;
   updateBlog: (id: string, data: Partial<BlogData>) => Promise<{ success: boolean; error?: string }>;
   deleteBlog: (id: string) => Promise<{ success: boolean; error?: string }>;
+  getBlogsByCategory: (category: string) => BlogData[];
+  getBlogByCategory: (category: string, titleOrShortName?: string) => BlogData | undefined;
 }
 
 export const useBlogStore = create<BlogState>((set, get) => ({
@@ -32,9 +32,9 @@ export const useBlogStore = create<BlogState>((set, get) => ({
   isLoading: false,
   error: null,
 
-  fetchBlogs: async () => {
+  fetchBlogs: async (force = false) => {
     const currentBlogs = get().blogs;
-    if (currentBlogs && currentBlogs.length > 0) {
+    if (!force && currentBlogs && currentBlogs.length > 0) {
       return;
     }
 
@@ -47,11 +47,10 @@ export const useBlogStore = create<BlogState>((set, get) => ({
     }
   },
 
-
   createBlog: async (data) => {
     try {
       await apiCall("/api/blogs", { method: "POST", body: data });
-      await get().fetchBlogs();
+      await get().fetchBlogs(true);
       return { success: true };
     } catch (err: any) {
       return { success: false, error: err.message || "Failed to create blog." };
@@ -61,7 +60,7 @@ export const useBlogStore = create<BlogState>((set, get) => ({
   updateBlog: async (id, data) => {
     try {
       await apiCall(`/api/blogs/${id}`, { method: "PUT", body: data });
-      await get().fetchBlogs();
+      await get().fetchBlogs(true);
       return { success: true };
     } catch (err: any) {
       return { success: false, error: err.message || "Failed to update blog." };
@@ -76,5 +75,21 @@ export const useBlogStore = create<BlogState>((set, get) => ({
     } catch (err: any) {
       return { success: false, error: err.message || "Failed to delete blog." };
     }
+  },
+
+  getBlogsByCategory: (category: string) => {
+    const cleanCat = category.toLowerCase().trim();
+    return get().blogs.filter((b) => b.category?.toLowerCase().trim() === cleanCat);
+  },
+
+  getBlogByCategory: (category: string, titleOrShortName?: string) => {
+    const items = get().getBlogsByCategory(category);
+    if (!titleOrShortName) return items[0];
+    const cleanQuery = titleOrShortName.toLowerCase().trim();
+    return items.find(
+      (b) =>
+        b.title?.toLowerCase().trim().includes(cleanQuery) ||
+        b.shortName?.toLowerCase().trim().includes(cleanQuery)
+    );
   },
 }));

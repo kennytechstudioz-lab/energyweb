@@ -1,11 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import VideoModal from "./VideoModal";
+import { useBlogStore } from "@/store/blogStore";
 
 export default function VoicesSection() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const { blogs, fetchBlogs } = useBlogStore();
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  const voiceBlog = useMemo(() => {
+    return blogs.find((b) => b.category?.toLowerCase().trim() === "voices");
+  }, [blogs]);
+
+  if (!voiceBlog) {
+    return null;
+  }
+
+  const title = voiceBlog.title;
+  const author = voiceBlog.author;
+  const role = voiceBlog.subtitle || "";
+  const quote = voiceBlog.content?.replace(/<[^>]*>?/gm, "") || "";
+  const picture = voiceBlog.picture || "/images/storage.jpg";
 
   return (
     <section className="relative w-full bg-white text-neutral-900 py-20 md:py-28 border-b border-neutral-100 overflow-hidden">
@@ -19,7 +39,7 @@ export default function VoicesSection() {
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight leading-[1.1]">
-            This is New Energy Holdings
+            {title}
           </h2>
         </div>
 
@@ -33,8 +53,8 @@ export default function VoicesSection() {
               className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-xl bg-neutral-900 group cursor-pointer border border-neutral-200"
             >
               <Image
-                src="/images/storage.jpg"
-                alt="New Energy Holdings storage operations"
+                src={picture}
+                alt={title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -61,17 +81,19 @@ export default function VoicesSection() {
 
             {/* Quote Body (Cyan-Blue #009ADE) */}
             <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#009ADE] leading-snug tracking-tight">
-              “When something’s hard, when it requires fundamental innovation, when it requires laying new track for the clean energy industry to follow ... it’s the professionals we have here that are often laying that track.”
+              {quote}
             </blockquote>
 
             {/* Author Attribution */}
             <div className="flex flex-col pt-2 border-t border-neutral-200/80">
               <span className="text-lg sm:text-xl font-extrabold text-neutral-900 tracking-tight">
-                Craig Cornelius
+                {author}
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-neutral-600">
-                Chief Executive Officer, New Energy Holdings
-              </span>
+              {role && (
+                <span className="text-xs sm:text-sm font-semibold text-neutral-600">
+                  {role}
+                </span>
+              )}
             </div>
           </div>
 

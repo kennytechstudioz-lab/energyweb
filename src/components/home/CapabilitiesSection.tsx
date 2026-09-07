@@ -1,44 +1,41 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useBlogStore } from "@/store/blogStore";
 
 interface CapabilityItem {
+  _id?: string;
   title: string;
   description: string;
   details?: string;
 }
 
-const capabilities: CapabilityItem[] = [
-  {
-    title: "Origination and business development",
-    description: "Focused on natural gas, storage, solar, and wind.",
-    details: "Our origination team identifies strategic land parcels, secures long-term power purchase agreements, and builds pipeline growth options across renewable and conventional energy markets.",
-  },
-  {
-    title: "Project development",
-    description: "Site diligence, project management, permitting and interconnection",
-    details: "Comprehensive site assessment, environmental permitting, community stakeholder engagement, and utility interconnection approvals to move projects smoothly from concept to construction.",
-  },
-  {
-    title: "Engineering, procurement, and construction management",
-    description: "Industry-leading technical services and construction management",
-    details: "Direct oversight of equipment procurement, EPC contractor management, system design optimization, and safety protocol enforcement during facility construction.",
-  },
-  {
-    title: "Capital markets",
-    description: "Over $24 billion capital raised to finance over 450+ distinct projects",
-    details: "Structuring tax equity, debt financing, and institutional capital syndication to optimize capital efficiency and risk-adjusted investor returns.",
-  },
-  {
-    title: "Commercial operations",
-    description: "In-house asset management and operations and maintenance",
-    details: "24/7 real-time dispatch monitoring, predictive O&M maintenance, power marketing trading, and long-term asset value maximization.",
-  },
-];
-
 export default function CapabilitiesSection() {
+  const { blogs, fetchBlogs } = useBlogStore();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  // Read purely dynamic capabilities from blogs collection
+  const dynamicCapabilities: CapabilityItem[] = useMemo(() => {
+    const items = blogs.filter(
+      (b) => b.category?.toLowerCase().trim() === "capabilities"
+    );
+
+    return items.map((b) => ({
+      _id: b._id,
+      title: b.title,
+      description: b.subtitle || "",
+      details: b.content.replace(/<[^>]*>?/gm, ""),
+    }));
+  }, [blogs]);
+
+  if (dynamicCapabilities.length === 0) {
+    return null;
+  }
 
   const toggleItem = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -64,13 +61,13 @@ export default function CapabilitiesSection() {
           </p>
         </div>
 
-        {/* 5 Capability Rows */}
+        {/* Dynamic Capability Rows */}
         <div className="flex flex-col border-t border-neutral-300 mt-4">
-          {capabilities.map((item, idx) => {
+          {dynamicCapabilities.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
-                key={idx}
+                key={item._id || idx}
                 className="border-b border-neutral-300 transition-colors py-6 md:py-8 flex flex-col gap-3 cursor-pointer group"
                 onClick={() => toggleItem(idx)}
               >
