@@ -62,8 +62,8 @@ export default function AdminUsersPage() {
 
   // Create Transaction modal
   const [createTxnUser, setCreateTxnUser] = useState<UserProfile | null>(null);
-  const [txnForm, setTxnForm] = useState({ transactionType: "deposit", amount: "", currencySymbol: "", method: "direct", planId: "" });
-  const [userWallets, setUserWallets] = useState<Array<{ currencySymbol: string; currencyName: string; balance: number }>>([]);
+  const [txnForm, setTxnForm] = useState({ transactionType: "funding", amount: "", currencySymbol: "", walletId: "", method: "direct", planId: "" });
+  const [userWallets, setUserWallets] = useState<Array<{ _id?: string; id?: string; currencySymbol: string; currencyName: string; balance: number }>>([]);
   const [loadingUserWallets, setLoadingUserWallets] = useState(false);
   const [txnSubmitting, setTxnSubmitting] = useState(false);
   const [plans, setPlans] = useState<Array<{ _id: string; name: string; duration: number; percent: number; min: number; max: number; referralPercent: number }>>([]);
@@ -238,7 +238,7 @@ export default function AdminUsersPage() {
   // Open create transaction modal and fetch user wallets + plans
   const openCreateTxn = async (user: UserProfile) => {
     setCreateTxnUser(user);
-    setTxnForm({ transactionType: "funding", amount: "", currencySymbol: "", method: "direct", planId: "" });
+    setTxnForm({ transactionType: "funding", amount: "", currencySymbol: "", walletId: "", method: "direct", planId: "" });
     setLoadingUserWallets(true);
     try {
       const [walletsRes, plansRes] = await Promise.all([
@@ -249,9 +249,11 @@ export default function AdminUsersPage() {
       const fetchedPlans = plansRes.plans || [];
       setUserWallets(wallets);
       setPlans(fetchedPlans);
+      const firstW = wallets.length ? wallets[0] : null;
       setTxnForm((f) => ({
         ...f,
-        currencySymbol: wallets.length ? wallets[0].currencySymbol : "",
+        walletId: firstW ? (firstW._id || firstW.id || "") : "",
+        currencySymbol: firstW ? firstW.currencySymbol : "",
         planId: fetchedPlans.length ? fetchedPlans[0]._id : "",
       }));
     } catch { setUserWallets([]); setPlans([]); }
@@ -1014,13 +1016,21 @@ export default function AdminUsersPage() {
                   <p className="text-xs text-red-400 font-medium">No wallets found for this user.</p>
                 ) : (
                   <select
-                    value={txnForm.currencySymbol}
-                    onChange={(e) => setTxnForm((f) => ({ ...f, currencySymbol: e.target.value }))}
+                    value={txnForm.walletId || txnForm.currencySymbol}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      const selectedW = userWallets.find((w) => (w._id && w._id === val) || (w.id && w.id === val) || w.currencySymbol === val);
+                      setTxnForm((f) => ({
+                        ...f,
+                        walletId: selectedW?._id || selectedW?.id || val,
+                        currencySymbol: selectedW?.currencySymbol || f.currencySymbol,
+                      }));
+                    }}
                     className="bg-neutral-950 border border-neutral-800 p-2.5 rounded text-white text-sm focus:outline-none focus:border-[#e4c126] font-medium"
                   >
                     {userWallets.map((w) => (
-                      <option key={w.currencySymbol} value={w.currencySymbol}>
-                        {w.currencyName} ({w.currencySymbol}) — ${w.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      <option key={w._id || w.id || w.currencySymbol} value={w._id || w.id || w.currencySymbol}>
+                        {w.currencyName} ({w.currencySymbol}) — ${Number(w.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                       </option>
                     ))}
                   </select>
