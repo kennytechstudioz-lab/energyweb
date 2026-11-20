@@ -113,7 +113,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         notifications: NotificationItem[];
         totalPages: number;
         page: number;
-      }>(`/api/notifications?username=${username}&page=${page}&limit=20`);
+      }>(`/api/notifications?username=${encodeURIComponent(username || "")}&page=${page}&limit=20`);
       set({
         notifications: response.notifications || [],
         totalPages: response.totalPages || 1,

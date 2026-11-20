@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useBlogStore, BlogData } from "@/store/blogStore";
 
-export default function BlogDetailPage() {
-  const params = useParams();
-  const id = params?.id as string;
+function BlogPostContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const { blogs, fetchBlogs, isLoading } = useBlogStore();
   const [post, setPost] = useState<BlogData | null>(null);
 
@@ -155,7 +155,7 @@ export default function BlogDetailPage() {
               {relatedPosts.map((rel) => (
                 <Link
                   key={rel._id}
-                  href={`/blog/${rel._id}`}
+                  href={`/blog/post?id=${rel._id}`}
                   className="bg-[#181a24] border border-white/10 rounded-xl p-6 flex flex-col gap-3 hover:border-[#009ADE]/50 transition-all group"
                 >
                   <span className="text-[10px] text-[#009ADE] font-black uppercase tracking-wider">
@@ -174,5 +174,19 @@ export default function BlogDetailPage() {
         </section>
       )}
     </article>
+  );
+}
+
+export default function BlogDetailPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full min-h-[60vh] bg-[#0d0e12] text-white flex flex-col items-center justify-center gap-3">
+          <div className="w-8 h-8 rounded-full border-2 border-[#009ADE] border-t-transparent animate-spin" />
+        </div>
+      }
+    >
+      <BlogPostContent />
+    </Suspense>
   );
 }

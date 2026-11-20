@@ -91,16 +91,16 @@ export default function AdminStaffPage() {
     try {
       const fd = new FormData();
       fd.append("file", imageFile);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ""}/api/upload`, {
+      const data = await apiCall<{ success: boolean; url: string }>("/api/upload", {
         method: "POST",
         body: fd,
       });
-      const data = await res.json();
       return data.url || form.picture;
     } finally {
       setUploading(false);
     }
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -175,7 +175,7 @@ export default function BlogListingPage() {
                       </div>
 
                       <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight group-hover:text-[#009ADE] transition-colors">
-                        <Link href={`/blog/${featuredPost._id || ""}`}>
+                        <Link href={`/blog/post?id=${featuredPost._id || ""}`}>
                           {featuredPost.title}
                         </Link>
                       </h2>
@@ -199,7 +199,7 @@ export default function BlogListingPage() {
                         By {featuredPost.author}
                       </span>
                       <Link
-                        href={`/blog/${featuredPost._id || ""}`}
+                        href={`/blog/post?id=${featuredPost._id || ""}`}
                         className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#009ADE] hover:text-white transition-colors"
                       >
                         <span>Read Article</span>
@@ -243,7 +243,7 @@ export default function BlogListingPage() {
                         </span>
 
                         <h3 className="text-lg font-bold text-white leading-snug group-hover:text-[#009ADE] transition-colors line-clamp-2">
-                          <Link href={`/blog/${post._id || ""}`}>
+                          <Link href={`/blog/post?id=${post._id || ""}`}>
                             {post.title}
                           </Link>
                         </h3>
@@ -268,7 +268,7 @@ export default function BlogListingPage() {
                         {post.author}
                       </span>
                       <Link
-                        href={`/blog/${post._id || ""}`}
+                        href={`/blog/post?id=${post._id || ""}`}
                         className="text-[#009ADE] hover:text-white font-bold flex items-center gap-1 transition-colors"
                       >
                         Read <span>→</span>

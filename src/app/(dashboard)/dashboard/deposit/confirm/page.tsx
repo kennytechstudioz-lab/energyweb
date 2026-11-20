@@ -52,10 +52,11 @@ function ConfirmDepositContent() {
   }, [username]);
 
   const fetchWallets = async () => {
+    if (!username) return;
     try {
       setLoadingWallets(true);
       const response = await apiCall<{ success: boolean; wallets: WalletItem[] }>(
-        `/api/users/wallets?username=${username}`
+        `/api/users/wallets?username=${encodeURIComponent(username || "")}`
       );
       if (response && response.success) {
         setWallets(response.wallets || []);

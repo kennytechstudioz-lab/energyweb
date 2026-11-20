@@ -162,7 +162,7 @@ function DashboardContent({ tab }: { tab: string }) {
     if (!username) return;
     try {
       const response = await apiCall<{ success: boolean; earnings: any[] }>(
-        `/api/users/earnings?username=${username}`
+        `/api/users/earnings?username=${encodeURIComponent(username || "")}`
       );
       if (response.success) {
         setEarningsList(response.earnings || []);
@@ -202,10 +202,11 @@ function DashboardContent({ tab }: { tab: string }) {
 
 
   const fetchWallets = async () => {
+    if (!username) return;
     try {
       setLoadingWallets(true);
       const response = await apiCall<{ success: boolean; wallets: WalletItem[] }>(
-        `/api/users/wallets?username=${username}`
+        `/api/users/wallets?username=${encodeURIComponent(username || "")}`
       );
       if (response.success) {
         setWallets(response.wallets || []);

@@ -17,7 +17,7 @@ export function ActiveDepositsTab() {
       try {
         setLoadingActiveDeposits(true);
         const response = await apiCall<{ success: boolean; activeDeposits: any[] }>(
-          `/api/users/active-deposits?username=${username}`
+          `/api/users/active-deposits?username=${encodeURIComponent(username || "")}`
         );
         if (response.success) {
           setActiveDepositsList(response.activeDeposits || []);

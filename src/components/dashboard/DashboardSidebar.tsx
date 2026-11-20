@@ -22,7 +22,7 @@ function SidebarNav() {
 
   useEffect(() => {
     if (username) {
-      apiCall<{ success: boolean; wallets: any[] }>(`/api/users/wallets?username=${username}`)
+      apiCall<{ success: boolean; wallets: any[] }>(`/api/users/wallets?username=${encodeURIComponent(username || "")}`)
         .then((res) => {
           if (res.success && res.wallets) {
             const sum = res.wallets.reduce((acc, curr) => acc + (curr.activeDeposit || 0), 0);

@@ -50,6 +50,7 @@ export default function UserEarningsPage() {
   }, [username, currentPage]);
 
   const fetchEarnings = async (page: number) => {
+    if (!username) return;
     setIsLoading(true);
     setError(null);
     try {
@@ -57,7 +58,7 @@ export default function UserEarningsPage() {
         success: boolean;
         earnings: EarningItem[];
         totalPages: number;
-      }>(`/api/users/earnings?username=${username}&page=${page}&limit=20`);
+      }>(`/api/users/earnings?username=${encodeURIComponent(username || "")}&page=${page}&limit=20`);
       setEarnings(response.earnings || []);
       setTotalPages(response.totalPages || 1);
     } catch (err: any) {

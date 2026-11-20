@@ -7,7 +7,7 @@ const localEnvPath = path.join(__dirname, '../.env.local');
 const defaultEnvPath = path.join(__dirname, '../.env');
 
 console.log('======================================================');
-console.log(' CAPRICORN - Next.js Environment Sync Prebuild Script');
+console.log(' NEW SKY ENERGY - Next.js Environment Sync Prebuild Script');
 console.log('======================================================');
 
 // 1. Ensure .env.development is cleanly configured for local API
@@ -20,8 +20,8 @@ console.log('✓ Ensured .env.development points to local API: http://localhost:
 
 // 2. Ensure .env.production is configured for production API
 const prodApiUrl =
-  process.env.NEXT_PUBLIC_API_URL || "https://capricornapi.up.railway.app";
-const prodAuthUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_API_URL || "https://energyapi.up.railway.app";
+const prodAuthUrl = process.env.NEXTAUTH_URL || "https://newskyenergy.web.app";
 const prodAuthSecret =
   process.env.NEXTAUTH_SECRET ||
   "a-super-secure-production-ready-jwt-salt-change-me";

@@ -22,7 +22,7 @@ export function EarningsTab() {
       const fetchEarnings = async () => {
         try {
           const response = await apiCall<{ success: boolean; earnings: any[] }>(
-            `/api/users/earnings?username=${username}`
+            `/api/users/earnings?username=${encodeURIComponent(username || "")}`
           );
           if (response.success) {
             setEarningsList(response.earnings || []);

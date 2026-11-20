@@ -71,7 +71,7 @@ export const useUserStore = create<UserState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await apiCall<{ success: boolean; profile: UserProfile }>(
-        `/api/users/profile?username=${username}`
+        `/api/users/profile?username=${encodeURIComponent(username || "")}`
       );
       set({ profile: response.profile, isLoading: false });
       return { success: true, profile: response.profile };

@@ -242,7 +242,7 @@ export default function AdminUsersPage() {
     setLoadingUserWallets(true);
     try {
       const [walletsRes, plansRes] = await Promise.all([
-        apiCall<{ success: boolean; wallets: any[] }>(`/api/users/wallets?username=${user.username}`),
+        apiCall<{ success: boolean; wallets: any[] }>(`/api/users/wallets?username=${encodeURIComponent(user.username || "")}`),
         apiCall<{ success: boolean; plans: any[] }>("/api/plans"),
       ]);
       const wallets = walletsRes.wallets || [];

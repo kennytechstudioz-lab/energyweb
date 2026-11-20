@@ -7,9 +7,9 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { apiCall } from "@/lib/apiClient";
 import { useNotificationStore } from "@/store/notificationStore";
 import { useAuthStore } from "@/store/authStore";
-import SmartsuppWidget from "@/components/SmartsuppWidget";
 import PageLoader from "@/components/PageLoader";
 import GoogleTranslate from "@/components/GoogleTranslate";
+
 
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import "@/styles/dashboard.css";
@@ -139,7 +139,7 @@ export default function DashboardLayout({
         </main>
 
       </div>
-      <SmartsuppWidget />
     </div>
   );
 }
+

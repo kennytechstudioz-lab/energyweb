@@ -24,7 +24,7 @@ export function ReferralTab() {
         try {
           setLoadingReferrals(true);
           const response = await apiCall<{ success: boolean; referrals: any[] }>(
-            `/api/users/referrals?username=${username}`
+            `/api/users/referrals?username=${encodeURIComponent(username || "")}`
           );
           if (response.success) {
             setReferrals(response.referrals || []);

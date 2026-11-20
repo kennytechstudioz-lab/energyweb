@@ -48,7 +48,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
         transactions: TransactionItem[];
         totalPages: number;
         page: number;
-      }>(`/api/users/transactions?username=${username}&page=${page}&limit=20`);
+      }>(`/api/users/transactions?username=${encodeURIComponent(username || "")}&page=${page}&limit=20`);
       set({
         transactions: response.transactions || [],
         totalPages: response.totalPages || 1,

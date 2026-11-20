@@ -36,7 +36,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await apiCall<{ success: boolean; wallets: WalletItem[] }>(
-        `/api/users/wallets?username=${username}`
+        `/api/users/wallets?username=${encodeURIComponent(username || "")}`
       );
       if (response.success) {
         set({

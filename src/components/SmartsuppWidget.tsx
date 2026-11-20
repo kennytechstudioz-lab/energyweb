@@ -10,8 +10,21 @@ export default function SmartsuppWidget() {
     (window as any)._smartsupp = (window as any)._smartsupp || {};
     (window as any)._smartsupp.key = "3f90232aaaddae0be4c1fd99d846fb2138c7d616";
 
+    if (!(window as any).smartsupp) {
+      const smartsupp: any = function () {
+        smartsupp._.push(arguments);
+      };
+      smartsupp._ = [];
+      (window as any).smartsupp = smartsupp;
+    }
+
     // Prevent duplicate script injection
-    if (document.getElementById("smartsupp-script")) return;
+    if (document.getElementById("smartsupp-script")) {
+      if (typeof (window as any).smartsupp === "function") {
+        (window as any).smartsupp("chat:show");
+      }
+      return;
+    }
 
     // Inject Smartsupp loader script
     const s = document.createElement("script");
@@ -25,9 +38,10 @@ export default function SmartsuppWidget() {
     if (firstScript && firstScript.parentNode) {
       firstScript.parentNode.insertBefore(s, firstScript);
     } else {
-      document.head.appendChild(s);
+      document.body.appendChild(s);
     }
   }, []);
 
   return null;
 }
+
