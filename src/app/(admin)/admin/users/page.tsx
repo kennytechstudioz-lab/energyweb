@@ -238,7 +238,7 @@ export default function AdminUsersPage() {
   // Open create transaction modal and fetch user wallets + plans
   const openCreateTxn = async (user: UserProfile) => {
     setCreateTxnUser(user);
-    setTxnForm({ transactionType: "deposit", amount: "", currencySymbol: "", method: "direct", planId: "" });
+    setTxnForm({ transactionType: "funding", amount: "", currencySymbol: "", method: "direct", planId: "" });
     setLoadingUserWallets(true);
     try {
       const [walletsRes, plansRes] = await Promise.all([
@@ -272,7 +272,7 @@ export default function AdminUsersPage() {
       showToast("Transaction created successfully.", "success");
       const isDeposit = txnForm.transactionType === "deposit";
       const isFromBalance = txnForm.method === "balance";
-      const isCredit = ["bonus", "referral"].includes(txnForm.transactionType) || (isDeposit && !isFromBalance);
+      const isCredit = ["bonus", "referral", "funding"].includes(txnForm.transactionType) || (isDeposit && !isFromBalance);
       const isDebit = ["withdrawal", "reduction"].includes(txnForm.transactionType) || (isDeposit && isFromBalance);
       setUsers((prev) =>
         prev.map((u) =>
@@ -1034,9 +1034,10 @@ export default function AdminUsersPage() {
                   onChange={(e) => setTxnForm((f) => ({ ...f, transactionType: e.target.value }))}
                   className="bg-neutral-950 border border-neutral-800 p-2.5 rounded text-white text-sm focus:outline-none focus:border-[#e4c126] font-medium"
                 >
-                  <option value="deposit">Deposit</option>
-                  <option value="withdrawal">Withdrawal</option>
+                  <option value="funding">Credit / Fund Wallet Balance (Available Funds)</option>
+                  <option value="deposit">Investment Deposit (Active Yield Plan)</option>
                   <option value="bonus">Bonus</option>
+                  <option value="withdrawal">Withdrawal</option>
                   <option value="reduction">Reduction</option>
                 </select>
               </div>
