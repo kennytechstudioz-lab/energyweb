@@ -39,11 +39,13 @@ export function ReferralTab() {
     }
   }, [username]);
 
-  const rawDomain = setting?.domainName || "oeelco.com";
+  const rawDomain =
+    setting?.domainName ||
+    (typeof window !== "undefined" && window.location.host ? window.location.host : "newskyenergyholdings.com");
   const domainUrl = rawDomain.startsWith("http://") || rawDomain.startsWith("https://")
     ? rawDomain
     : `https://${rawDomain}`;
-  const inviteLink = `${domainUrl}?ref=${username}`;
+  const inviteLink = `${domainUrl}?ref=${username || ""}`;
   return (
     <div className="flex flex-col gap-8 w-full animate-fade-in text-left overflow-x-hidden">
       {/* Centered Referral Code Scanner & Link Card */}

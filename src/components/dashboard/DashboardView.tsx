@@ -125,7 +125,7 @@ function DashboardContent({ tab }: { tab: string }) {
 
   useEffect(() => {
     fetchSettings();
-  }, []);
+  }, [fetchSettings]);
 
   useEffect(() => {
     fetchStorePlans();
@@ -250,7 +250,9 @@ function DashboardContent({ tab }: { tab: string }) {
   const [showFundModal, setShowFundModal] = useState(false);
 
 
-  const rawDomain = setting?.domainName || "oeelco.com";
+  const rawDomain =
+    setting?.domainName ||
+    (typeof window !== "undefined" && window.location.host ? window.location.host : "newskyenergyholdings.com");
   const domainUrl = rawDomain.startsWith("http://") || rawDomain.startsWith("https://")
     ? rawDomain
     : `https://${rawDomain}`;
